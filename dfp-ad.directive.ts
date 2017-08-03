@@ -127,7 +127,6 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
   }
 
   private refreshContent() {
-     console.log(this.refresh)
     this.dfpRefresh.slotRefresh(this.slot, this.refresh).then(() => {
       this.afterRefresh.emit(this.slot);
     });
