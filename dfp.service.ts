@@ -33,7 +33,7 @@ export class DfpService {
   private loaded = false;
 
   constructor(private scriptInjector: ScriptInjectorService) {
-    googletag.cmd.push(()=>{
+    googletag.cmd.push(() => {
       this.setup();
     });
     if (this.loadGPT) {
@@ -46,8 +46,8 @@ export class DfpService {
 
   private addSafeFrameConfig(pubads) {
     if (!this.safeFrameConfig) return;
-    if (typeof this.globalTargeting !== 'object') {
-      throw new DFPConfigurationError('Targeting must be an object');
+    if (typeof this.safeFrameConfig !== 'object') {
+      throw new DFPConfigurationError('FrameConfig must be an object');
     }
     pubads.setSafeFrameConfig(this.safeFrameConfig);
   }
