@@ -38,9 +38,6 @@ export class DfpAdResponsive {
             state = this.ad.getState(),
             width = 0;
 
-        /**
-         * 取最大宽度 尺寸
-         */
         state.sizes.forEach(size => {
             if (size[0] < winWidth) {
                 width = Math.max(width, size[0]);
