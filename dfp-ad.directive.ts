@@ -10,6 +10,11 @@ import { DFPIncompleteError } from "./dfp-errors.class";
 
 declare var googletag;
 
+class DfpRefreshEvent {
+  type: string;
+  slot: any;
+}
+
 @Directive({
   selector: 'dfp-ad'
 })
@@ -22,7 +27,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
   @Input() refresh: string;
   @Input() collapseIfEmpty: boolean;
 
-  @Output() afterRefresh: EventEmitter<any> = new EventEmitter();
+  @Output() afterRefresh: EventEmitter<DfpRefreshEvent> = new EventEmitter();
 
   private sizes = [];
 
@@ -41,7 +46,11 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
     private dfpRefresh: DfpRefreshService
-  ) { }
+  ) {
+    this.dfpRefresh.refreshEvent.subscribe(slot => {
+      this.afterRefresh.emit({ type: 'refresh', slot: slot });
+    });
+  }
 
   ngOnInit() {
     this.dfpIDGenerator.dfpIDGenerator(this.elementRef.nativeElement);
@@ -51,6 +60,10 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
     this.dfp.defineTask(() => {
       this.defineSlot();
     });
+  }
+
+  ngOnDestroy() {
+    googletag.destroySlots([this.slot]);
   }
 
   private setResponsiveMapping(slot) {
@@ -122,13 +135,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
     this.refreshContent();
   }
 
-  ngOnDestroy() {
-    googletag.destroySlots([this.slot]);
-  }
-
   private refreshContent() {
-    this.dfpRefresh.slotRefresh(this.slot, this.refresh).then(() => {
-      this.afterRefresh.emit(this.slot);
+    this.dfpRefresh.slotRefresh(this.slot, this.refresh).then(slot => {
+      this.afterRefresh.emit({ type: 'init', slot: slot });
     });
   }
 
