@@ -1,5 +1,5 @@
 import {
-  Directive, ElementRef, ViewContainerRef,
+  Directive, ElementRef,
   Input, Inject, forwardRef,
   OnInit
 } from '@angular/core';
@@ -16,7 +16,6 @@ export class DfpSizeDirective implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef,
     @Inject(forwardRef(() => DfpAdDirective))
     private ad: DfpAdDirective
   ) {
