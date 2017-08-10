@@ -8,7 +8,7 @@ import {
 } from "./service";
 
 import {
-  DfpAdDirective,
+  DfpAdDirective,DfpAdResponsive,
   DfpSizeDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective
 } from './directive';
@@ -18,6 +18,7 @@ import { DfpAudiencePixelDirective } from './dfp-audience-pixel.directive';
 @NgModule({
   declarations: [
     DfpAdDirective,
+    DfpAdResponsive,
     DfpSizeDirective,
     DfpTargetingDirective,
     DfpExclusionDirective,
@@ -32,6 +33,7 @@ import { DfpAudiencePixelDirective } from './dfp-audience-pixel.directive';
   ],
   exports: [
     DfpAdDirective,
+    DfpAdResponsive,
     DfpSizeDirective,
     DfpTargetingDirective,
     DfpExclusionDirective,
