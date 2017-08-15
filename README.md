@@ -14,8 +14,14 @@ Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.
     </dfp-targeting>
 </dfp-ad>
 ```
+
+## Demo
+
+[https://github.com/atwwei/ngx-dfp-demo](https://github.com/atwwei/ngx-dfp-demo)
+
 ## License
 
 This project is released under the [Apache
 License](https://www.apache.org/licenses/LICENSE-2.0). For more information, see
 the LICENSE file.
+
