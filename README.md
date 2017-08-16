@@ -19,6 +19,12 @@ Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.
 
 [https://github.com/atwwei/ngx-dfp-demo](https://github.com/atwwei/ngx-dfp-demo)
 
+## Notice
+
+If not necessary, remove the attribute “forceSafeFrame”.
+
+[https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_setForceSafeFrame](https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_setForceSafeFrame)
+
 ## License
 
 This project is released under the [Apache
