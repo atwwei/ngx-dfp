@@ -11,8 +11,6 @@ import { DfpTargetingDirective } from '../directive';
 })
 export class DfpValueDirective implements OnInit {
 
-  @Input() adTag: string;
-
   constructor(
     private elementRef: ElementRef,
     @Inject(forwardRef(() => DfpTargetingDirective))
