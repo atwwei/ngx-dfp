@@ -1,11 +1,12 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, AfterContentInit, Input, Inject, forwardRef } from '@angular/core';
 
 import { DFPIncompleteError } from '../class';
+import { DfpAdDirective } from './index';
 
 @Directive({
   selector: 'dfp-targeting'
 })
-export class DfpTargetingDirective {
+export class DfpTargetingDirective implements AfterContentInit {
 
   @Input() key: string;
 
@@ -19,9 +20,15 @@ export class DfpTargetingDirective {
   private values: any[];
 
   constructor(
-    private elementRef: ElementRef
+    @Inject(forwardRef(() => DfpAdDirective))
+    private ad: DfpAdDirective
   ) {
     this.values = [];
+  }
+
+  ngAfterContentInit() {
+    let targeting = this.getState();
+    this.ad.addTargeting(targeting);
   }
 
   checkValid() {
