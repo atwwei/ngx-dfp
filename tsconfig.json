@@ -1,8 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "outDir": "./dist",
-        "baseUrl": "",
+        "outDir": "./lib",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
@@ -18,6 +17,6 @@
         ]
     },
     "include": [
-        "./src/**.ts"
+        "./src/**/*.ts"
     ]
 }
