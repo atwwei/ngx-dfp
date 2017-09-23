@@ -1,6 +1,6 @@
 {
     "name": "ngx-dfp",
-    "version": "1.1.4",
+    "version": "1.1.5",
     "description": "Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.0",
     "repository": {
         "type": "git",
@@ -24,18 +24,18 @@
         "README.md",
         "LICENSE"
     ],
-    "main": "./lib/index.js",
-    "typings": "./lib/index.d.ts",
+    "main": "lib/index.js",
+    "typings": "lib/index.ts",
     "scripts": {
-        "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
-        "build": "npm run lint && tsc -d",
+        "lint": "tslint --type-check --project tsconfig.json",
+        "build": "npm run lint && tsc",
         "prepublish": "npm run build"
     },
     "dependencies": {},
     "devDependencies": {
-        "@angular/compiler": "^4.4.3",
         "@angular/core": "^4.0.0",
         "codelyzer": "^3.2.0",
+        "reflect-metadata": "^0.1.10",
         "rxjs": "^5.1.0",
         "tslint": "^5.7.0",
         "typescript": "~2.3.3",
