@@ -12,7 +12,7 @@ export class DfpTargetingDirective implements AfterContentInit {
 
   @Input()
   set value(val: string) {
-    if (val && !this.values.find(item => item == val)) {
+    if (val && !this.values.find(item => item === val)) {
       this.values.push(val);
     }
   }
@@ -40,7 +40,7 @@ export class DfpTargetingDirective implements AfterContentInit {
     }
   }
 
-  getState = function () {
+  getState() {
     this.checkValid();
     return Object.freeze({
       key: this.key,
@@ -48,7 +48,7 @@ export class DfpTargetingDirective implements AfterContentInit {
     });
   }
 
-  addValue = function (value) {
+  addValue(value) {
     this.values.push(value);
   }
 

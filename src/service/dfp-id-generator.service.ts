@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DfpIDGeneratorService {
 
-  private generatedIDs = {}
+  private generatedIDs = {};
 
   generateID() {
     let id = null;
@@ -24,17 +24,17 @@ export class DfpIDGeneratorService {
     }
 
     let id = this.generateID();
-    if (element) element.id = id;
+    if (element) { element.id = id; }
 
     return id;
   }
 
-  isTaken = function (id) {
+  isTaken(id) {
     return id in this.generatedIDs;
   }
 
-  isUnique = function (id) {
-    return !this.dfpIDGenerator.isTaken(id);
+  isUnique(id) {
+    return !this.isTaken(id);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpErrorService } from "./index";
+import { HttpErrorService } from './index';
 
 @Injectable()
 export class ScriptInjectorService {
@@ -26,7 +26,7 @@ export class ScriptInjectorService {
     let promise = new Promise((resolve, reject) => {
       script.onload = () => {
         resolve(script);
-      }
+      };
       script.onerror = () => {
         reject({
           path: url,
@@ -37,7 +37,7 @@ export class ScriptInjectorService {
 
     promise.catch(response => {
       this.httpError.httpError({ status: 400 }, `loading script "${url}"`);
-    })
+    });
 
     return promise;
   }

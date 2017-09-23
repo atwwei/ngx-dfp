@@ -1,6 +1,6 @@
 import {
   Directive, ElementRef,
-  Input, 
+  Input,
   OnInit
 } from '@angular/core';
 

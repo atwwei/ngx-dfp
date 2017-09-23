@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class HttpErrorService {
 
   httpError(response, message) {
-    console.log(`Error (${response.status}) ${message?message:''}`);
+    console.log(`Error (${response.status}) ${message ? message : ''}`);
   }
 
   isErrorCode = function (code) {

@@ -5,17 +5,17 @@ import {
   ParseDurationService,
   ScriptInjectorService,
   DfpService, DfpIDGeneratorService, DfpRefreshService
-} from "./service";
+} from './service';
 
 import {
-  DfpAdDirective, DfpAdResponsive,
+  DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
   DfpAudiencePixelDirective
 } from './directive';
 
 const DIRECTIVES = [
-  DfpAdDirective, DfpAdResponsive,
+  DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
   DfpAudiencePixelDirective

@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { Observable, Subscription } from "rxjs/Rx";
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { ParseDurationService } from './index';
 
@@ -29,7 +29,7 @@ export class DfpRefreshService {
       if (refreshInterval) {
         this.addSlotInterval(task, refreshInterval);
       }
-    })
+    });
 
     this.refresh([task]);
 
@@ -38,7 +38,7 @@ export class DfpRefreshService {
 
   cancelInterval(slot) {
     if (!this.hasSlotInterval(slot)) {
-      throw new DFPRefreshError("No interval for given slot");
+      throw new DFPRefreshError('No interval for given slot');
     }
 
     let interval: Subscription = this.intervals[this.slotIntervalKey(slot)];
@@ -60,7 +60,7 @@ export class DfpRefreshService {
       return;
     }
 
-    if (tasks.length === 0) return;
+    if (tasks.length === 0) { return false; }
 
     googletag.cmd.push(() => {
       googletag.pubads().refresh(tasks.map(task => task.slot));

@@ -6,7 +6,7 @@ export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
 class DFPConfigurationError extends Error { }
 
-var googletag = googletag || {};
+let googletag = (window as any).googletag || {};
 googletag.cmd = googletag.cmd || [];
 
 @Injectable()
@@ -45,7 +45,7 @@ export class DfpService {
   }
 
   private addSafeFrameConfig(pubads) {
-    if (!this.safeFrameConfig) return;
+    if (!this.safeFrameConfig) { return false; }
     if (typeof this.safeFrameConfig !== 'object') {
       throw new DFPConfigurationError('FrameConfig must be an object');
     }
@@ -53,7 +53,7 @@ export class DfpService {
   }
 
   private addTargeting(pubads) {
-    if (!this.globalTargeting) return;
+    if (!this.globalTargeting) { return false; }
     if (typeof this.globalTargeting !== 'object') {
       throw new DFPConfigurationError('Targeting must be an object');
     }
@@ -66,7 +66,7 @@ export class DfpService {
   }
 
   private addLocation(pubads) {
-    if (!this.location) return;
+    if (!this.location) { return false; }
 
     if (typeof this.location === 'string') {
       pubads.setLocation(this.location);
@@ -82,7 +82,7 @@ export class DfpService {
   }
 
   private addPPID(pubads) {
-    if (!this.ppid) return;
+    if (!this.ppid) { return false; }
     if (typeof this.ppid !== 'string') {
       throw new DFPConfigurationError('PPID must be a string');
     }
@@ -112,8 +112,8 @@ export class DfpService {
     this.addTargeting(pubads);
     this.addSafeFrameConfig(pubads);
 
-    //pubads.enableSyncRendering(); //同步加载
-    pubads.enableAsyncRendering(); //异步加载
+    // pubads.enableSyncRendering();
+    pubads.enableAsyncRendering();
 
     googletag.enableServices();
 

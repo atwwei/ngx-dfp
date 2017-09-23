@@ -2,11 +2,9 @@
 
 export class DFPIncompleteError extends Error {
     constructor(directiveName, missingName, isAttribute?) {
-        super(
-            `Incomplete definition of '${directiveName}': ` +
+        super(`Incomplete definition of '${directiveName}': ` +
             `Missing ${isAttribute ? 'attribute' : 'child directive'} ` +
-            `'${missingName}'.`
-        );
+            `'${missingName}'.`);
     }
 }
 

@@ -10,7 +10,7 @@ import { DfpRefreshService } from '../service';
 @Directive({
     selector: 'dfp-ad[responsive]'
 })
-export class DfpAdResponsive {
+export class DfpAdResponsiveDirective {
 
     private iframe: HTMLIFrameElement;
     private iframeWidth: number;
@@ -30,7 +30,7 @@ export class DfpAdResponsive {
     @HostListener('window:resize')
     normalizeIframe() {
         this.iframe = this.iframe || this.getIframe();
-        if (!this.iframe) return;
+        if (!this.iframe) { return false; }
 
         this.iframeWidth = this.iframeWidth || +this.iframe.width;
 
@@ -42,12 +42,12 @@ export class DfpAdResponsive {
             if (size[0] < winWidth) {
                 width = Math.max(width, size[0]);
             }
-        })
+        });
 
-        if (width != this.iframeWidth) {
-            let state = this.ad.getState();
+        if (width !== this.iframeWidth) {
+            state = this.ad.getState();
             this.iframeWidth = width;
-            this.iframe.setAttribute("width", width + '');
+            this.iframe.setAttribute('width', width + '');
             this.dfpRefresh.slotRefresh(this.slot, state.refresh).then(slot => {
                 this.ad.afterRefresh.emit({ type: 'resize', slot: slot });
                 this.iframe = this.getIframe();

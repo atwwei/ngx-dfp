@@ -1,7 +1,7 @@
 import {
   Directive, ElementRef,
   Input, Output, EventEmitter,
-  OnInit, AfterViewInit
+  OnInit, AfterViewInit, OnDestroy
 } from '@angular/core';
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
@@ -10,7 +10,7 @@ import { DFPIncompleteError } from '../class';
 
 declare var googletag;
 
-class DfpRefreshEvent {
+export class DfpRefreshEvent {
   type: string;
   slot: any;
 }
@@ -18,7 +18,7 @@ class DfpRefreshEvent {
 @Directive({
   selector: 'dfp-ad'
 })
-export class DfpAdDirective implements OnInit, AfterViewInit {
+export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() adUnit: string;
   @Input() clickUrl: string;
@@ -158,12 +158,12 @@ export class DfpAdDirective implements OnInit, AfterViewInit {
       targetings: this.targetings,
       exclusions: this.exclusions,
       adUnit: this.adUnit,
-      forceSafeFrame: this.forceSafeFrame == true,
+      forceSafeFrame: this.forceSafeFrame === true,
       safeFrameConfig: this.safeFrameConfig,
       clickUrl: this.clickUrl,
       refresh: this.refresh,
       scripts: this.scripts,
-      collapseIfEmpty: this.collapseIfEmpty == true
+      collapseIfEmpty: this.collapseIfEmpty === true
     });
   }
 

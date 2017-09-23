@@ -12,9 +12,9 @@ export class ParseDurationService {
   convertToMilliseconds(time, unit) {
     console.assert(/^(m?s|min|h)$/g.test(unit));
 
-    if (unit === 'ms') return time;
-    if (unit === 's') return time * 1000;
-    if (unit === 'min') return time * 60 * 1000;
+    if (unit === 'ms') { return time; }
+    if (unit === 's') { return time * 1000; }
+    if (unit === 'min') { return time * 60 * 1000; }
 
     return time * 60 * 60 * 1000;
   }
@@ -22,7 +22,7 @@ export class ParseDurationService {
   convert(match) {
     const time = parseFloat(match[1]);
 
-    if (match.length === 2) return time;
+    if (match.length === 2) { return time; }
 
     return this.convertToMilliseconds(time, match[2]);
   }
