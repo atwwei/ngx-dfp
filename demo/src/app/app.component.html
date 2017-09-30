@@ -1,0 +1,23 @@
+<h1>
+    {{title}}
+</h1>
+<h2>
+    320x50 or 728x90 or 970x90
+</h2>
+<dfp-ad [forceSafeFrame]="true" [collapseIfEmpty]="true" adUnit="/35096353/pub-showcase" responsive refresh="6s" (afterRefresh)="refreshed($event)">
+    <dfp-size [width]="320" [height]="50"></dfp-size>
+    <dfp-size [width]="728" [height]="90"></dfp-size>
+    <dfp-size [width]="970" [height]="90"></dfp-size>
+    <dfp-targeting key="food">
+        <dfp-value>chicken</dfp-value>
+        <dfp-value>meatballs</dfp-value>
+        <dfp-value>ice cream</dfp-value>
+    </dfp-targeting>
+</dfp-ad>
+<h2>
+    320x50 only
+</h2>
+<dfp-ad [forceSafeFrame]="true" [collapseIfEmpty]="true" adUnit="/35096353/pub-showcase">
+    <dfp-size [width]="320" [height]="50"></dfp-size>
+    <dfp-targeting key="sport" value="football"></dfp-targeting>
+</dfp-ad>
