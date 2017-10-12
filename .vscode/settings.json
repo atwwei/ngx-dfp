@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/vendor": true,
+        "**/*.ngsummary.json": true,
+        "**/*.ngfactory.ts": true
+    },
+    "files.eol": "\n"
+}
