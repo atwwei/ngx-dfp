@@ -2,11 +2,13 @@
     "compileOnSave": false,
     "compilerOptions": {
         "outDir": "./lib",
+        "baseUrl": ".",
         "sourceMap": true,
-        "declaration": false,
+        "declaration": true,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "inlineSources": true,
         "target": "es5",
         "typeRoots": [
             "node_modules/@types"
@@ -16,7 +18,10 @@
             "dom"
         ]
     },
-    "include": [
-        "./src/**/*.ts"
-    ]
+    "files": [
+        "./src/index.ts"
+    ],
+    "angularCompilerOptions": {
+        "strictMetadataEmit": true
+    }
 }
