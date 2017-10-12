@@ -3,10 +3,6 @@
 # compiled output
 /lib
 
-# ngc
-*.ngsummary.json
-*.ngfactory.ts
-
 # dependencies
 /node_modules
 
