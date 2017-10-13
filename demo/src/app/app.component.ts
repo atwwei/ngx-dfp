@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'ngx-dfp demo';
 
   refreshed(event) {
-    console.log(event)
+    console.log(event);
   }
-  
+
 }
