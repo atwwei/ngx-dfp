@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
-import { ScriptInjectorService } from './index';
+import { IdleLoad, ScriptInjectorService } from './index';
 
 export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
@@ -32,16 +32,26 @@ export class DfpService {
 
   private loaded = false;
 
-  constructor(private scriptInjector: ScriptInjectorService) {
+  constructor(
+    @Optional() idleLoad: IdleLoad,
+    private scriptInjector: ScriptInjectorService
+  ) {
     googletag.cmd.push(() => {
       this.setup();
     });
     if (this.loadGPT) {
-      this.scriptInjector.scriptInjector(GPT_LIBRARY_URL).then((script) => {
-        this.loaded = true;
-      });
+      let loadScript = () => {
+        this.scriptInjector.scriptInjector(GPT_LIBRARY_URL).then((script) => {
+          this.loaded = true;
+        });
+        window['googletag'] = googletag;
+      };
+      if (idleLoad) {
+        idleLoad.request(loadScript);
+      } else {
+        loadScript();
+      }
     }
-    window['googletag'] = googletag;
   }
 
   private addSafeFrameConfig(pubads) {
