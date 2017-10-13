@@ -13,7 +13,7 @@ export class IdleService {
       };
     } else {
       this.requestIdleCallback = (fun) => {
-        return zone.runOutsideAngular(() => win.setTimeout(fun, 5));
+        return zone.runOutsideAngular(() => win.setTimeout(fun, 50));
       };
     }
   }
