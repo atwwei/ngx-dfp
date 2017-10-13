@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { DfpModule } from 'ngx-dfp';
+import { DfpModule, IdleLoad } from 'ngx-dfp';
 
 import { AppComponent } from './app.component';
 
@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     DfpModule
   ],
-  providers: [],
+  providers: [IdleLoad],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
