@@ -15,6 +15,33 @@ Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.
 </dfp-ad>
 ```
 
+## IdleLoad
+
+Load google script with IdleLoad provider, then dfp-ad will start work.
+When the page is free, it will start loading.
+
+```HTML
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { DfpModule, IdleLoad } from 'ngx-dfp';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    DfpModule
+  ],
+  providers: [IdleLoad],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
 ## License
 
 This project is released under the [Apache
