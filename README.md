@@ -42,9 +42,8 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 ```
 
-## License
+## Demo
 
-This project is released under the [Apache
-License](https://www.apache.org/licenses/LICENSE-2.0). For more information, see
-the LICENSE file.
+- Source of demo page: [Demo Source](https://github.com/atwwei/ngx-dfp/tree/master/demo)
+- Demo page for ngx-dfp available here: [Demo Page](https://atwwei.github.io/ngx-dfp/demo)
 
