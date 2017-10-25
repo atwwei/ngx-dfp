@@ -63,7 +63,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    googletag.destroySlots([this.slot]);
+    if (this.slot) {
+      googletag.destroySlots([this.slot]);
+    }
   }
 
   private setResponsiveMapping(slot) {
