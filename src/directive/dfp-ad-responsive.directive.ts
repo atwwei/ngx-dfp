@@ -34,8 +34,9 @@ export class DfpAdResponsiveDirective {
 
         this.iframeWidth = this.iframeWidth || +this.iframe.width;
 
-        let winWidth = window.innerWidth,
-            state = this.ad.getState(),
+        const winWidth = window.innerWidth;
+
+        let state = this.ad.getState(),
             width = 0;
 
         state.sizes.forEach(size => {
@@ -56,7 +57,7 @@ export class DfpAdResponsiveDirective {
     }
 
     getIframe() {
-        let ad: Element = this.elementRef.nativeElement,
+        const ad: Element = this.elementRef.nativeElement,
             iframe = ad.querySelector('iframe');
         if (iframe && +iframe.width > 0) {
             return iframe;

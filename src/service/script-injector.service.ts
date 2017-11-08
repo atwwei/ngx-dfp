@@ -8,12 +8,12 @@ export class ScriptInjectorService {
   constructor(private httpError: HttpErrorService) { }
 
   private completeURL(url) {
-    let ssl = document.location.protocol === 'https:';
+    const ssl = document.location.protocol === 'https:';
     return (ssl ? 'https:' : 'http:') + url;
   }
 
   private createScript(url) {
-    let script = document.createElement('script');
+    const script = document.createElement('script');
 
     script.async = true;
     script.type = 'text/javascript';
@@ -23,7 +23,7 @@ export class ScriptInjectorService {
   }
 
   private promiseScript(script, url) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       script.onload = () => {
         resolve(script);
       };
@@ -43,12 +43,12 @@ export class ScriptInjectorService {
   }
 
   injectScript(script) {
-    let head = document.head || document.querySelector('head');
+    const head = document.head || document.querySelector('head');
     head.appendChild(script);
   }
 
   scriptInjector(url) {
-    let script = this.createScript(url);
+    const script = this.createScript(url);
     this.injectScript(script);
     return this.promiseScript(script, url);
   }

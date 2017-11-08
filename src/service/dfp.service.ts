@@ -6,7 +6,7 @@ export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
 class DFPConfigurationError extends Error { }
 
-let googletag = (window as any).googletag || {};
+const googletag = (window as any).googletag || {};
 googletag.cmd = googletag.cmd || [];
 
 @Injectable()
@@ -40,7 +40,7 @@ export class DfpService {
       this.setup();
     });
     if (this.loadGPT) {
-      let loadScript = () => {
+      const loadScript = () => {
         this.scriptInjector.scriptInjector(GPT_LIBRARY_URL).then((script) => {
           this.loaded = true;
         });
@@ -68,7 +68,7 @@ export class DfpService {
       throw new DFPConfigurationError('Targeting must be an object');
     }
 
-    for (let key in this.globalTargeting) {
+    for (const key in this.globalTargeting) {
       if (this.globalTargeting.hasOwnProperty(key)) {
         pubads.setTargeting(key, this.globalTargeting[key]);
       }
@@ -101,7 +101,7 @@ export class DfpService {
   }
 
   private setup() {
-    let pubads = googletag.pubads();
+    const pubads = googletag.pubads();
 
     if (this.enableVideoAds) {
       pubads.enableVideoAds();

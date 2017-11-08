@@ -27,7 +27,7 @@ export class DfpTargetingDirective implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    let targeting = this.getState();
+    const targeting = this.getState();
     this.ad.addTargeting(targeting);
   }
 

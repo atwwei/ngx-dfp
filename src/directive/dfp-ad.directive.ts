@@ -69,9 +69,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setResponsiveMapping(slot) {
-    let ad = this.getState();
+    const ad = this.getState();
 
-    let sizeMapping = googletag.sizeMapping();
+    const sizeMapping = googletag.sizeMapping();
 
     if (ad.responsiveMapping.length === 0) {
       ad.sizes.forEach(function (size) {
@@ -94,7 +94,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private defineSlot() {
-    let ad = this.getState(),
+    const ad = this.getState(),
       element = this.elementRef.nativeElement;
 
     this.slot = googletag.defineSlot(ad.adUnit, ad.sizes, element.id);

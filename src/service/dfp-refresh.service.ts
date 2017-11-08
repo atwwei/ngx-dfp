@@ -1,6 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/timer';
 
 import { ParseDurationService } from './index';
 
@@ -19,7 +22,7 @@ export class DfpRefreshService {
   ) { }
 
   slotRefresh(slot, refreshInterval?) {
-    let deferred: Promise<any> = Observable.from([slot]).toPromise(),
+    const deferred: Promise<any> = Observable.from([slot]).toPromise(),
       task = { slot: slot, deferred: deferred };
 
     deferred.then(() => {
@@ -41,7 +44,7 @@ export class DfpRefreshService {
       throw new DFPRefreshError('No interval for given slot');
     }
 
-    let interval: Subscription = this.intervals[this.slotIntervalKey(slot)];
+    const interval: Subscription = this.intervals[this.slotIntervalKey(slot)];
     interval.unsubscribe();
     delete this.intervals[slot];
 
@@ -71,10 +74,10 @@ export class DfpRefreshService {
   }
 
   private addSlotInterval(task, interval) {
-    let parsedInterval = this.parseDuration.parseDuration(interval);
+    const parsedInterval = this.parseDuration.parseDuration(interval);
     this.validateInterval(parsedInterval, interval);
 
-    let refresh = Observable.timer(parsedInterval, parsedInterval).subscribe(() => {
+    const refresh = Observable.timer(parsedInterval, parsedInterval).subscribe(() => {
       this.refresh([task]);
       this.refreshEvent.emit(task.slot);
     });

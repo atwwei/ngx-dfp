@@ -9,7 +9,7 @@ export class DfpIDGeneratorService {
     let id = null;
 
     do {
-      let number = Math.random().toString().slice(2);
+      const number = Math.random().toString().slice(2);
       id = 'gpt-ad-' + number;
     } while (id in this.generatedIDs);
 
@@ -23,7 +23,7 @@ export class DfpIDGeneratorService {
       return element.id;
     }
 
-    let id = this.generateID();
+    const id = this.generateID();
     if (element) { element.id = id; }
 
     return id;

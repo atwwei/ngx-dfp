@@ -18,8 +18,8 @@ export class DfpAudiencePixelDirective implements OnInit {
   ) { }
 
   ngOnInit() {
-    let axel = Math.random();
-    let random = axel * 10000000000000;
+    const axel = Math.random(),
+      random = axel * 10000000000000;
 
     let adUnit = '';
     if (this.adUnit) {
@@ -31,7 +31,7 @@ export class DfpAudiencePixelDirective implements OnInit {
       ppid = `ppid=${this.ppid}`;
     }
 
-    let pixel = document.createElement('img');
+    const pixel = document.createElement('img');
 
     pixel.src = 'https://pubads.g.doubleclick.net/activity;ord=';
     pixel.src += `${random};dc_seg=${this.segmentId};${adUnit}${ppid}`;

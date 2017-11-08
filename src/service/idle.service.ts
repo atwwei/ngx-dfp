@@ -6,7 +6,7 @@ export class IdleService {
   private requestIdleCallback: any;
 
   constructor(private zone: NgZone) {
-    let win = window as any;
+    const win = window as any;
     if (win.requestIdleCallback) {
       this.requestIdleCallback = (fun) => {
         return win.requestIdleCallback(fun);
