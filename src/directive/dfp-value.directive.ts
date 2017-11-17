@@ -4,7 +4,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { DfpTargetingDirective } from '../directive';
+import { DfpTargetingDirective } from './dfp-targeting.directive';
 
 @Directive({
   selector: 'dfp-value'

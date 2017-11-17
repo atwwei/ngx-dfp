@@ -4,7 +4,7 @@ import {
     HostListener
 } from '@angular/core';
 
-import { DfpAdDirective } from '../directive';
+import { DfpAdDirective } from './dfp-ad.directive';
 import { DfpRefreshService } from '../service';
 
 @Directive({

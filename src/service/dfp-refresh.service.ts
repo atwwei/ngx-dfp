@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/timer';
 
-import { ParseDurationService } from './index';
+import { ParseDurationService } from './parse-duration.service';
 
 class DFPRefreshError extends Error { }
 

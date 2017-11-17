@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpErrorService } from './index';
+import { HttpErrorService } from './http-error.service';
 
 @Injectable()
 export class ScriptInjectorService {

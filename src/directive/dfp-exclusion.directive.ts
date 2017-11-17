@@ -4,7 +4,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { DfpAdDirective } from '../directive';
+import { DfpAdDirective } from './dfp-ad.directive';
 
 @Directive({
   selector: 'dfp-exclusion'

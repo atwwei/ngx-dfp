@@ -1,7 +1,7 @@
 import { Directive, ElementRef, AfterContentInit, Input, Inject, forwardRef } from '@angular/core';
 
 import { DFPIncompleteError } from '../class';
-import { DfpAdDirective } from './index';
+import { DfpAdDirective } from './dfp-ad.directive';
 
 @Directive({
   selector: 'dfp-targeting'
