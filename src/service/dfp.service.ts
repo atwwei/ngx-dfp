@@ -1,13 +1,11 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, Optional, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import { IdleLoad, ScriptInjectorService } from './index';
 
 export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
 class DFPConfigurationError extends Error { }
-
-const googletag = (window as any).googletag || {};
-googletag.cmd = googletag.cmd || [];
 
 @Injectable()
 export class DfpService {
@@ -33,23 +31,31 @@ export class DfpService {
   private loaded = false;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() idleLoad: IdleLoad,
     private scriptInjector: ScriptInjectorService
   ) {
-    googletag.cmd.push(() => {
-      this.setup();
-    });
-    if (this.loadGPT) {
-      const loadScript = () => {
-        this.scriptInjector.scriptInjector(GPT_LIBRARY_URL).then((script) => {
-          this.loaded = true;
-        });
-        window['googletag'] = googletag;
-      };
-      if (idleLoad) {
-        idleLoad.request(loadScript);
-      } else {
-        loadScript();
+    if (isPlatformBrowser(this.platformId)) {
+      const win: any = window,
+        googletag = win.googletag || {};
+
+      googletag.cmd = googletag.cmd || [];
+      googletag.cmd.push(() => {
+        this.setup();
+      });
+      win.googletag = googletag;
+
+      if (this.loadGPT) {
+        const loadScript = () => {
+          this.scriptInjector.scriptInjector(GPT_LIBRARY_URL).then((script) => {
+            this.loaded = true;
+          });
+        };
+        if (idleLoad) {
+          idleLoad.request(loadScript);
+        } else {
+          loadScript();
+        }
       }
     }
   }
@@ -101,7 +107,9 @@ export class DfpService {
   }
 
   private setup() {
-    const pubads = googletag.pubads();
+    const win: any = window,
+      googletag = win.googletag,
+      pubads = googletag.pubads();
 
     if (this.enableVideoAds) {
       pubads.enableVideoAds();
@@ -134,7 +142,11 @@ export class DfpService {
   }
 
   defineTask(task) {
-    googletag.cmd.push(task);
+    if (isPlatformBrowser(this.platformId)) {
+      const win: any = window,
+        googletag = win.googletag;
+      googletag.cmd.push(task);
+    }
   }
 
 }
