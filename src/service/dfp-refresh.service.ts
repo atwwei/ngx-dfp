@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/toPromise';
 
 import { ParseDurationService } from './parse-duration.service';
 
