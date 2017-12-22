@@ -65,7 +65,6 @@ export class DfpService {
   }
 
   private dfpConfig(config: DfpConfig) {
-    console.log(config);
     if (config) {
       for (const key in config) {
         if (this.hasOwnProperty(key)) {
