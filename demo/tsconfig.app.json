@@ -1,0 +1,21 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "baseUrl": "./",
+        "module": "es2015",
+        "types": [],
+        "paths": {
+            "ngx-dfp": [
+                "../src"
+            ]
+        }
+    },
+    "include": [
+        "./"
+    ],
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts"
+    ]
+}
