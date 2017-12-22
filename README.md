@@ -42,6 +42,18 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 ```
 
+## DfpConfig
+
+Config dfp with the code below:
+
+```HTML
+DfpModule.forRoot({
+  globalTargeting: {
+    food: ['chicken', 'meatballs']
+  }
+})
+```
+
 ## Demo
 
 - Source of demo page: [Demo Source](https://github.com/atwwei/ngx-dfp/tree/master/demo)
