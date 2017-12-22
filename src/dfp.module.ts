@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
+
+import { DfpConfig } from './class';
 
 import {
   HttpErrorService,
@@ -40,5 +43,10 @@ const SERVICES = [
   ]
 })
 export class DfpModule {
-
+  static forRoot(config?: DfpConfig): ModuleWithProviders {
+    return {
+      ngModule: DfpModule,
+      providers: [{ provide: DfpConfig, useValue: config }]
+    };
+  }
 }

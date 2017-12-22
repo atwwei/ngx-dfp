@@ -11,7 +11,11 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    DfpModule
+    DfpModule.forRoot({
+      globalTargeting: {
+        food: ['chicken', 'meatballs']
+      }
+    })
   ],
   providers: [IdleLoad],
   bootstrap: [AppComponent]

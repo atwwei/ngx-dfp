@@ -1,7 +1,9 @@
 import { Injectable, Optional, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-import { IdleLoad, ScriptInjectorService } from './index';
+import { DfpConfig } from '../class';
+import { IdleService } from './idle.service';
+import { ScriptInjectorService } from './script-injector.service';
 
 export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
@@ -32,9 +34,11 @@ export class DfpService {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    @Optional() idleLoad: IdleLoad,
+    @Optional() idleLoad: IdleService,
+    @Optional() config: DfpConfig,
     private scriptInjector: ScriptInjectorService
   ) {
+    this.dfpConfig(config);
     if (isPlatformBrowser(this.platformId)) {
       const win: any = window,
         googletag = win.googletag || {};
@@ -55,6 +59,17 @@ export class DfpService {
           idleLoad.request(loadScript);
         } else {
           loadScript();
+        }
+      }
+    }
+  }
+
+  private dfpConfig(config: DfpConfig) {
+    console.log(config);
+    if (config) {
+      for (const key in config) {
+        if (this.hasOwnProperty(key)) {
+          this[key] = config[key];
         }
       }
     }

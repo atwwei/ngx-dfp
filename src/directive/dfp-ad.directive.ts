@@ -113,7 +113,6 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     if (ad.safeFrameConfig) {
       this.slot.setSafeFrameConfig(
-        /** @type {googletag.SafeFrameConfig} */
         (JSON.parse(ad.safeFrameConfig))
       );
     }
