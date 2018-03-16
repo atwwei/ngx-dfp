@@ -1,12 +1,16 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class IdleService {
 
   private requestIdleCallback: any;
 
-  constructor(private zone: NgZone) {
-    const win = window as any;
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private zone: NgZone
+  ) {
+    const win: any = isPlatformBrowser(platformId) ? window : {};
     if (win.requestIdleCallback) {
       this.requestIdleCallback = (fun) => {
         return win.requestIdleCallback(fun);
