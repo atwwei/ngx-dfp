@@ -6,13 +6,14 @@ import {
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
 
-import { DFPIncompleteError } from '../class';
+import { DFPIncompleteError, GoogleSlot } from '../class';
 
 declare var googletag;
 
 export class DfpRefreshEvent {
   type: string;
   slot: any;
+  data?: any;
 }
 
 @Directive({
@@ -39,7 +40,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private scripts = [];
 
-  private slot: any;
+  private slot: GoogleSlot;
 
   constructor(
     private elementRef: ElementRef,
@@ -116,6 +117,10 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
         (JSON.parse(ad.safeFrameConfig))
       );
     }
+
+    this.slot.renderEnded = (googleSlotEvent: IArguments) => {
+      this.afterRefresh.emit({ type: 'renderEnded', slot: this.slot, data: googleSlotEvent });
+    };
 
     this.setResponsiveMapping(this.slot);
 
