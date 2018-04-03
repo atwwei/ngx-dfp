@@ -10,6 +10,9 @@ export class AppComponent {
 
   refreshed(event) {
     console.log(event);
+    if (event.type === 'renderEnded') {
+      console.log(event.data.isEmpty, event.data.size);
+    }
   }
 
 }
