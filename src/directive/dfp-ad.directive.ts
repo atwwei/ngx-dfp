@@ -1,8 +1,9 @@
 import {
   Directive, ElementRef,
   Input, Output, EventEmitter,
-  OnInit, AfterViewInit, OnDestroy
+  OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
 
@@ -43,24 +44,31 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   private slot: GoogleSlot;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private elementRef: ElementRef,
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
     private dfpRefresh: DfpRefreshService
   ) {
-    this.dfpRefresh.refreshEvent.subscribe(slot => {
-      this.afterRefresh.emit({ type: 'refresh', slot: slot });
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.dfpRefresh.refreshEvent.subscribe(slot => {
+        this.afterRefresh.emit({ type: 'refresh', slot: slot });
+      });
+    }
   }
 
   ngOnInit() {
-    this.dfpIDGenerator.dfpIDGenerator(this.elementRef.nativeElement);
+    if (isPlatformBrowser(this.platformId)) {
+      this.dfpIDGenerator.dfpIDGenerator(this.elementRef.nativeElement);
+    }
   }
 
   ngAfterViewInit() {
-    this.dfp.defineTask(() => {
-      this.defineSlot();
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.dfp.defineTask(() => {
+        this.defineSlot();
+      });
+    }
   }
 
   ngOnDestroy() {
