@@ -1,6 +1,6 @@
 import {
   Directive, ElementRef,
-  Input, Inject, forwardRef,
+  Inject, forwardRef,
   OnInit
 } from '@angular/core';
 

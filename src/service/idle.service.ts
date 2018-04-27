@@ -7,8 +7,8 @@ export class IdleService {
   private requestIdleCallback: any;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private zone: NgZone
+    @Inject(PLATFORM_ID) platformId: Object,
+    zone: NgZone
   ) {
     const win: any = isPlatformBrowser(platformId) ? window : {};
     if (win.requestIdleCallback) {

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, AfterContentInit, Input, Inject, forwardRef } from '@angular/core';
+import { Directive, AfterContentInit, Input, Inject, forwardRef } from '@angular/core';
 
 import { DFPIncompleteError } from '../class';
 import { DfpAdDirective } from './dfp-ad.directive';
