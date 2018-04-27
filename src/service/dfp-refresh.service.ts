@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Optional, Inject } from '@angular/core';
+import { Injectable, EventEmitter, Optional, Injector } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -21,7 +21,7 @@ export class DfpRefreshService {
   private intervals = {};
 
   constructor(
-    @Inject(DOCUMENT) private doc: Document,
+    private inject: Injector,
     @Optional() private config: DfpConfig,
     private parseDuration: ParseDurationService
   ) { }
@@ -41,7 +41,8 @@ export class DfpRefreshService {
 
     if (this.config.singleRequestMode === true && initRefresh) {
       const pubads = googletag.pubads(),
-        ads = this.doc.querySelectorAll('dfp-ad'),
+        doc = this.inject.get(DOCUMENT),
+        ads = doc.querySelectorAll('dfp-ad'),
         slots = pubads.getSlots() as any[];
       if (ads.length === slots.length) {
         pubads.enableSingleRequest();
