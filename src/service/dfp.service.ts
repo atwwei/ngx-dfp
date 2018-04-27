@@ -35,7 +35,7 @@ export class DfpService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() idleLoad: IdleService,
-    @Optional() config: DfpConfig,
+    @Optional() private config: DfpConfig,
     private scriptInjector: ScriptInjectorService
   ) {
     this.dfpConfig(config);
@@ -147,7 +147,9 @@ export class DfpService {
     // pubads.enableSyncRendering();
     pubads.enableAsyncRendering();
 
-    googletag.enableServices();
+    if (this.config.singleRequestMode !== true) {
+      googletag.enableServices();
+    }
 
   }
 

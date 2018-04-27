@@ -3,6 +3,7 @@ export class DfpTargeting {
 }
 
 export class DfpConfig {
+    singleRequestMode?: boolean;
     collapseIfEmpty?: boolean;
     centering?: boolean;
     location?: string | Array<string>;

@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     DfpModule.forRoot({
+      singleRequestMode: true, // Only applies to initial refresh
       globalTargeting: {
         food: ['chicken', 'meatballs']
       }

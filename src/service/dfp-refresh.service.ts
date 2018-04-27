@@ -1,12 +1,14 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Optional, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/timer';
+import { timer } from 'rxjs/observable/timer';
+import { from } from 'rxjs/observable/from';
 import 'rxjs/add/operator/toPromise';
 
+import { DfpConfig } from '../class';
 import { ParseDurationService } from './parse-duration.service';
+
 
 class DFPRefreshError extends Error { }
 
@@ -19,11 +21,13 @@ export class DfpRefreshService {
   private intervals = {};
 
   constructor(
+    @Inject(DOCUMENT) private doc: Document,
+    @Optional() private config: DfpConfig,
     private parseDuration: ParseDurationService
   ) { }
 
-  slotRefresh(slot, refreshInterval?) {
-    const deferred: Promise<any> = Observable.from([slot]).toPromise(),
+  slotRefresh(slot, refreshInterval?, initRefresh = false) {
+    const deferred: Promise<any> = from([slot]).toPromise(),
       task = { slot: slot, deferred: deferred };
 
     deferred.then(() => {
@@ -35,7 +39,22 @@ export class DfpRefreshService {
       }
     });
 
-    this.refresh([task]);
+    if (this.config.singleRequestMode === true && initRefresh) {
+      const pubads = googletag.pubads(),
+        ads = this.doc.querySelectorAll('dfp-ad'),
+        slots = pubads.getSlots() as any[];
+      if (ads.length === slots.length) {
+        pubads.enableSingleRequest();
+        googletag.enableServices();
+        slots.forEach(s => {
+          googletag.display(s.getSlotElementId());
+        });
+        pubads.refresh();
+      }
+    } else {
+      googletag.display(slot.getSlotElementId());
+      this.refresh([task]);
+    }
 
     return deferred;
   }
@@ -78,7 +97,7 @@ export class DfpRefreshService {
     const parsedInterval = this.parseDuration.parseDuration(interval);
     this.validateInterval(parsedInterval, interval);
 
-    const refresh = Observable.timer(parsedInterval, parsedInterval).subscribe(() => {
+    const refresh = timer(parsedInterval, parsedInterval).subscribe(() => {
       this.refresh([task]);
       this.refreshEvent.emit(task.slot);
     });

@@ -95,13 +95,6 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     slot.defineSizeMapping(sizeMapping.build());
   }
 
-  private extractViewportDimensions(responsiveMappings) {
-    return responsiveMappings.map(mapping => ({
-      width: mapping.viewportSize[0],
-      height: mapping.viewportSize[1]
-    }));
-  }
-
   private defineSlot() {
     const ad = this.getState(),
       element = this.elementRef.nativeElement;
@@ -144,13 +137,11 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     this.slot.addService(googletag.pubads());
 
-    googletag.display(element.id);
-
     this.refreshContent();
   }
 
   private refreshContent() {
-    this.dfpRefresh.slotRefresh(this.slot, this.refresh).then(slot => {
+    this.dfpRefresh.slotRefresh(this.slot, this.refresh, true).then(slot => {
       this.afterRefresh.emit({ type: 'init', slot: slot });
     });
   }
