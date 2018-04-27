@@ -36,7 +36,8 @@ const SERVICES = [
     ...DIRECTIVES
   ],
   providers: [
-    ...SERVICES
+    ...SERVICES,
+    { provide: DfpConfig, useValue: {} }
   ],
   exports: [
     ...DIRECTIVES
@@ -46,7 +47,7 @@ export class DfpModule {
   static forRoot(config?: DfpConfig): ModuleWithProviders {
     return {
       ngModule: DfpModule,
-      providers: [{ provide: DfpConfig, useValue: config }]
+      providers: [{ provide: DfpConfig, useValue: config || {} }]
     };
   }
 }
