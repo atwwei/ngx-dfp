@@ -11,20 +11,20 @@ export class DfpTargetingDirective implements AfterContentInit {
   @Input() key: string;
 
   @Input()
-  set value(val: string) {
-    if (val && !this.values.find(item => item === val)) {
-      this.values.push(val);
+  set value(val: string | Array<string>) {
+    if (val instanceof Array) {
+      val.forEach(v => this.addValue(v));
+    } else {
+      this.addValue(val);
     }
   }
 
-  private values: any[];
+  private values = [];
 
   constructor(
     @Inject(forwardRef(() => DfpAdDirective))
     private ad: DfpAdDirective
-  ) {
-    this.values = [];
-  }
+  ) { }
 
   ngAfterContentInit() {
     const targeting = this.getState();
@@ -49,7 +49,9 @@ export class DfpTargetingDirective implements AfterContentInit {
   }
 
   addValue(value) {
-    this.values.push(value);
+    if (value && !this.values.find(item => item === value)) {
+      this.values.push(value);
+    }
   }
 
 }
