@@ -29,6 +29,9 @@ export class DfpAdResponsiveDirective {
 
     @HostListener('window:resize')
     normalizeIframe() {
+        if (this.ad.isHidden) {
+            return false;
+        }
         this.iframe = this.iframe || this.getIframe();
         if (!this.iframe) { return false; }
 
