@@ -2,7 +2,7 @@
     {{title}}
 </h1>
 <h2>
-    320x50 or 728x90 or 970x90
+    320x50 or 728x90 or 970x90 responsive
 </h2>
 <dfp-ad adUnit="/35096353/pub-showcase" responsive>
     <dfp-size [width]="320" [height]="50"></dfp-size>
@@ -16,19 +16,11 @@
 </dfp-ad>
 
 <h2>
-    970x90
+    320x50 afterRefresh
 </h2>
-<dfp-ad adUnit="/35096353/pub-showcase" (afterRefresh)="refreshed($event)" refresh="6s">
-    <dfp-size [width]="970" [height]="90"></dfp-size>
+<dfp-ad adUnit="/35096353/pub-showcase" (afterRefresh)="refreshed($event)">
+    <dfp-size [width]="320" [height]="50"></dfp-size>
     <dfp-targeting key="food" [value]="['chicken','meatballs']"></dfp-targeting>
-</dfp-ad>
-
-<h2>
-    728x90
-</h2>
-<dfp-ad adUnit="/35096353/pub-showcase">
-    <dfp-size [width]="728" [height]="90"></dfp-size>
-    <dfp-targeting key="food" value="chicken"></dfp-targeting>
 </dfp-ad>
 
 <h2>
