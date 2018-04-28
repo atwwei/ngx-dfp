@@ -48,7 +48,7 @@ export class DfpAdResponsiveDirective {
             }
         });
 
-        if (width !== this.iframeWidth) {
+        if (state.sizes.length > 1 && width !== this.iframeWidth) {
             state = this.ad.getState();
             this.iframeWidth = width;
             this.iframe.setAttribute('width', width + '');
