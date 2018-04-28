@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { DfpModule, IdleLoad } from 'ngx-dfp';
+import { DfpModule } from 'ngx-dfp';
 
 import { AppComponent } from './app.component';
 
@@ -12,13 +12,13 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     DfpModule.forRoot({
+      idleLoad: true,
       singleRequestMode: true, // Only applies to initial refresh
       globalTargeting: {
         food: ['chicken', 'meatballs']
       }
     })
   ],
-  providers: [IdleLoad],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

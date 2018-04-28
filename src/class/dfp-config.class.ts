@@ -3,6 +3,7 @@ export class DfpTargeting {
 }
 
 export class DfpConfig {
+    idleLoad?: boolean;
     singleRequestMode?: boolean;
     collapseIfEmpty?: boolean;
     centering?: boolean;
