@@ -52,7 +52,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.dfpRefresh.refreshEvent.subscribe(slot => {
-        this.afterRefresh.emit({ type: 'refresh', slot: slot });
+        if (slot === this.slot) {
+          this.afterRefresh.emit({ type: 'refresh', slot: slot });
+        }
       });
     }
   }
@@ -153,6 +155,10 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     if (!this.adUnit) {
       throw new DFPIncompleteError('dfp-ad', 'ad-unit', true);
     }
+  }
+
+  get isHidden() {
+    return this.dfpRefresh.hiddenCheck(this.elementRef.nativeElement);
   }
 
   getState() {
