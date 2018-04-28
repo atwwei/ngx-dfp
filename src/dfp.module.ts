@@ -37,8 +37,7 @@ const SERVICES = [
     ...DIRECTIVES
   ],
   providers: [
-    ...SERVICES,
-    { provide: DfpConfig, useValue: {} }
+    ...SERVICES
   ],
   exports: [
     ...DIRECTIVES
@@ -46,15 +45,12 @@ const SERVICES = [
 })
 export class DfpModule {
   static forRoot(config?: DfpConfig): ModuleWithProviders {
-    const providers: any[] = [
-      { provide: DfpConfig, useValue: config || {} }
-    ];
-    if (config && config.idleLoad === true) {
-      providers.push(IdleLoad);
-    }
     return {
       ngModule: DfpModule,
-      providers: providers
+      providers: [
+        ...(config && config.idleLoad === true ? [IdleLoad] : []),
+        { provide: DfpConfig, useValue: config || {} }
+      ]
     };
   }
 }
