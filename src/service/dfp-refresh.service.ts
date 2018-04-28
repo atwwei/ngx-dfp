@@ -9,7 +9,6 @@ import 'rxjs/add/operator/toPromise';
 import { DfpConfig } from '../class';
 import { ParseDurationService } from './parse-duration.service';
 
-
 class DFPRefreshError extends Error { }
 
 declare var googletag;
@@ -18,11 +17,13 @@ declare var googletag;
 export class DfpRefreshService {
 
   refreshEvent: EventEmitter<any> = new EventEmitter();
+  private refreshSlots = [];
+  private singleRequest: Subscription;
   private intervals = {};
 
   constructor(
-    private inject: Injector,
     @Optional() private config: DfpConfig,
+    private inject: Injector,
     private parseDuration: ParseDurationService
   ) { }
 
@@ -40,18 +41,21 @@ export class DfpRefreshService {
     });
 
     if (this.config.singleRequestMode === true && initRefresh) {
-      const pubads = googletag.pubads(),
-        doc = this.inject.get(DOCUMENT),
-        ads = doc.querySelectorAll('dfp-ad'),
-        slots = pubads.getSlots() as any[];
-      if (ads.length === slots.length) {
+      // Use a timer to handle refresh of a single request mode
+      this.refreshSlots.push(slot);
+      if (this.singleRequest && !this.singleRequest.closed) {
+        this.singleRequest.unsubscribe();
+      }
+      this.singleRequest = timer(100).subscribe(() => {
+        const pubads = googletag.pubads();
         pubads.enableSingleRequest();
         googletag.enableServices();
-        slots.forEach(s => {
+        this.refreshSlots.forEach(s => {
           googletag.display(s.getSlotElementId());
         });
-        pubads.refresh();
-      }
+        pubads.refresh(this.refreshSlots);
+        this.refreshSlots = [];
+      });
     } else {
       googletag.display(slot.getSlotElementId());
       this.refresh([task]);
@@ -99,8 +103,11 @@ export class DfpRefreshService {
     this.validateInterval(parsedInterval, interval);
 
     const refresh = timer(parsedInterval, parsedInterval).subscribe(() => {
-      this.refresh([task]);
-      this.refreshEvent.emit(task.slot);
+      const doc = this.inject.get(DOCUMENT);
+      if (!this.hiddenCheck(doc.getElementById(task.slot.getSlotElementId()))) {
+        this.refresh([task]);
+        this.refreshEvent.emit(task.slot);
+      }
     });
 
     this.intervals[this.slotIntervalKey(task.slot)] = refresh;
@@ -116,5 +123,17 @@ export class DfpRefreshService {
     if (milliseconds < 1000) {
       console.warn('Careful: ${beforeParsing} is quite a low interval!');
     }
+  }
+
+  hiddenCheck(element: Element) {
+    if (typeof (window) !== 'undefined') {
+      const css = window.getComputedStyle(element);
+      if (css.display === 'none') {
+        return true;
+      } else if (element.parentElement) {
+        return this.hiddenCheck(element.parentElement);
+      }
+    }
+    return false;
   }
 }
