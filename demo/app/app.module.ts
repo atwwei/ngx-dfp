@@ -20,11 +20,17 @@ import { Page2Component } from './page2/page2.component';
     RouterModule.forRoot([
       {
         path: '',
-        component: PageComponent
-      },
-      {
-        path: ':page',
-        component: Page2Component
+        component: AppComponent,
+        children: [
+          {
+            path: '',
+            component: PageComponent
+          },
+          {
+            path: ':page',
+            component: Page2Component
+          }
+        ]
       }
     ]),
     DfpModule.forRoot({
