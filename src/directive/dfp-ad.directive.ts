@@ -1,13 +1,17 @@
 import {
   Directive, ElementRef,
   Input, Output, EventEmitter,
-  OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID
+  OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, Optional
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
+import { filter } from 'rxjs/operators';
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
 
-import { DFPIncompleteError, GoogleSlot } from '../class';
+import { DFPIncompleteError, GoogleSlot, DfpConfig } from '../class';
 
 declare var googletag;
 
@@ -43,12 +47,16 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private slot: GoogleSlot;
 
+  private onSameNavigation: Subscription;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private elementRef: ElementRef,
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
-    private dfpRefresh: DfpRefreshService
+    private dfpRefresh: DfpRefreshService,
+    @Optional() config: DfpConfig,
+    router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.dfpRefresh.refreshEvent.subscribe(slot => {
@@ -56,6 +64,12 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
           this.afterRefresh.emit({ type: 'refresh', slot: slot });
         }
       });
+      this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          if (this.slot && config && config.onSameNavigation === 'refresh') {
+            this.refreshContent.call(this);
+          }
+        });
     }
   }
 
@@ -76,6 +90,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     if (this.slot) {
       googletag.destroySlots([this.slot]);
+    }
+    if (this.onSameNavigation) {
+      this.onSameNavigation.unsubscribe();
     }
   }
 
