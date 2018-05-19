@@ -8,6 +8,9 @@
         "paths": {
             "ngx-dfp": [
                 "../src"
+            ],
+            "ngx-dfp/class": [
+                "../src/class"
             ]
         }
     },

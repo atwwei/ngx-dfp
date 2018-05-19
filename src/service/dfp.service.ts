@@ -1,7 +1,7 @@
 import { Injectable, Optional, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-import { DfpConfig } from '../class';
+import { DfpConfig, DFP_CONFIG } from '../class';
 import { IdleService } from './idle.service';
 import { ScriptInjectorService } from './script-injector.service';
 
@@ -35,7 +35,8 @@ export class DfpService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() idleLoad: IdleService,
-    @Optional() private config: DfpConfig,
+    @Optional() @Inject(DFP_CONFIG)
+    private config: DfpConfig,
     private scriptInjector: ScriptInjectorService
   ) {
     this.dfpConfig(config);

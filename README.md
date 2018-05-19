@@ -23,6 +23,7 @@ Config dfp with the code below:
 DfpModule.forRoot({
   idleLoad: true,
   singleRequestMode: true,
+  onSameNavigation: 'refresh',
   globalTargeting: {
     food: ['chicken', 'meatballs']
   }

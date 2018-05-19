@@ -3,7 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 
-import { DfpConfig } from './class';
+import { DFP_CONFIG, DfpConfig } from './class';
 
 import {
   IdleLoad,
@@ -42,8 +42,7 @@ const SERVICES = [
     ...DIRECTIVES
   ],
   providers: [
-    ...SERVICES,
-    { provide: DfpConfig, useValue: {} }
+    ...SERVICES
   ],
   exports: [
     ...DIRECTIVES
@@ -55,7 +54,7 @@ export class DfpModule {
       ngModule: DfpModule,
       providers: [
         ...(config && config.idleLoad === true ? [IdleLoad] : []),
-        { provide: DfpConfig, useValue: config || {} }
+        { provide: DFP_CONFIG, useValue: config || {} }
       ]
     };
   }

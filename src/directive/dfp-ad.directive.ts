@@ -6,12 +6,12 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
 
-import { DFPIncompleteError, GoogleSlot, DfpConfig } from '../class';
+import { DFPIncompleteError, GoogleSlot, DfpConfig, DFP_CONFIG } from '../class';
 
 declare var googletag;
 
@@ -55,7 +55,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
     private dfpRefresh: DfpRefreshService,
-    @Optional() config: DfpConfig,
+    @Optional() @Inject(DFP_CONFIG) config: DfpConfig,
     router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {

@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Optional, Injector } from '@angular/core';
+import { Injectable, EventEmitter, Optional, Injector, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -6,7 +6,7 @@ import { timer } from 'rxjs/observable/timer';
 import { from } from 'rxjs/observable/from';
 import 'rxjs/add/operator/toPromise';
 
-import { DfpConfig } from '../class';
+import { DfpConfig, DFP_CONFIG } from '../class';
 import { ParseDurationService } from './parse-duration.service';
 
 class DFPRefreshError extends Error { }
@@ -22,7 +22,8 @@ export class DfpRefreshService {
   private intervals = {};
 
   constructor(
-    @Optional() private config: DfpConfig,
+    @Optional() @Inject(DFP_CONFIG)
+    private config: DfpConfig,
     private inject: Injector,
     private parseDuration: ParseDurationService
   ) { }
