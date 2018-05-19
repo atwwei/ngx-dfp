@@ -6,14 +6,9 @@ import { DfpModule } from 'ngx-dfp';
 
 import { AppComponent } from './app.component';
 
-import { PageComponent } from './page/page.component';
-import { Page2Component } from './page2/page2.component';
-
 @NgModule({
   declarations: [
-    AppComponent,
-    PageComponent,
-    Page2Component
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -24,12 +19,12 @@ import { Page2Component } from './page2/page2.component';
         children: [
           {
             path: '',
-            component: PageComponent
+            loadChildren: './page/page.module#PageModule'
           },
           {
             path: ':page',
-            component: Page2Component
-          }
+            loadChildren: './page2/page2.module#Page2Module'
+          },
         ]
       }
     ]),
