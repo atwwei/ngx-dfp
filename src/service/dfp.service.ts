@@ -148,7 +148,7 @@ export class DfpService {
     // pubads.enableSyncRendering();
     pubads.enableAsyncRendering();
 
-    if (this.config.singleRequestMode !== true) {
+    if (!this.config || this.config.singleRequestMode !== true) {
       googletag.enableServices();
     }
 
