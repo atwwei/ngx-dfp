@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
 
-import { RouterModule } from '@angular/router';
-
 import { DFP_CONFIG, DfpConfig } from './class';
 
 import {
@@ -36,7 +34,7 @@ const SERVICES = [
 
 @NgModule({
   imports: [
-    RouterModule
+
   ],
   declarations: [
     ...DIRECTIVES
