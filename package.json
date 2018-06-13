@@ -44,7 +44,6 @@
     "gulp": "^3.9.1",
     "gulp-prune": "^0.2.0",
     "rxjs": "^6.0.0",
-    "rxjs-compat": "^6.0.0",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2",
     "zone.js": "^0.8.17"
