@@ -38,7 +38,7 @@ export class DfpRefreshService {
       }
     });
 
-    if (this.config && this.config.singleRequestMode === true && initRefresh) {
+    if (this.config.singleRequestMode === true && initRefresh) {
       // Use a timer to handle refresh of a single request mode
       this.refreshSlots.push(slot);
       if (this.singleRequest && !this.singleRequest.closed) {

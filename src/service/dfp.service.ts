@@ -66,11 +66,9 @@ export class DfpService {
   }
 
   private dfpConfig(config: DfpConfig) {
-    if (config) {
-      for (const key in config) {
-        if (this.hasOwnProperty(key)) {
-          this[key] = config[key];
-        }
+    for (const key in config) {
+      if (this.hasOwnProperty(key)) {
+        this[key] = config[key];
       }
     }
   }
@@ -148,7 +146,7 @@ export class DfpService {
     // pubads.enableSyncRendering();
     pubads.enableAsyncRendering();
 
-    if (!this.config || this.config.singleRequestMode !== true) {
+    if (this.config.singleRequestMode !== true) {
       googletag.enableServices();
     }
 

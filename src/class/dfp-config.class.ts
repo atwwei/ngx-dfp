@@ -18,4 +18,6 @@ export class DfpConfig {
   loadGPT?: boolean;
 }
 
-export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig');
+export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig', {
+  factory: () => new DfpConfig()
+});

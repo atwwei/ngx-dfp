@@ -67,7 +67,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       if (router) {
         this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
           .subscribe((event: NavigationEnd) => {
-            if (this.slot && !this.refresh && config && config.onSameNavigation === 'refresh') {
+            if (this.slot && !this.refresh && config.onSameNavigation === 'refresh') {
               this.refreshContent.call(this);
             }
           });
