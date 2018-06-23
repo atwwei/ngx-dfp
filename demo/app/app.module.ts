@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 
 import { DfpModule } from 'ngx-dfp';
 
+import * as videojs from 'video.js';
+window['videojs'] = videojs;
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -30,6 +33,7 @@ import { AppComponent } from './app.component';
     ]),
     DfpModule.forRoot({
       idleLoad: true,
+      enableVideoAds: true,
       singleRequestMode: true, // Only applies to initial refresh
       onSameNavigation: 'refresh',
       globalTargeting: {
