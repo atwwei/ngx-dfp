@@ -109,7 +109,9 @@ export class DfpVideoDirective implements OnInit {
 
     // An event listener to tell the SDK that our content video
     // is completed so the SDK can play any post-roll ads.
-    this.contentPlayer.onended = () => { this.adsLoader.contentComplete(); };
+    this.contentPlayer.onended = () => {
+      this.contentEnded();
+    };
   }
 
   initialUserAction() {
@@ -223,7 +225,4 @@ export class DfpVideoDirective implements OnInit {
     this.requestAds(this.adTag);
   }
 
-  onContentEnded() {
-    this.contentEnded();
-  }
 }
