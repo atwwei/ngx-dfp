@@ -12,7 +12,7 @@ class DFPConfigurationError extends Error { }
 @Injectable()
 export class DfpService {
 
-  private enableVideoAds = true;
+  private enableVideoAds = false;
 
   private collapseIfEmpty = true;
 
@@ -35,14 +35,14 @@ export class DfpService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() idleLoad: IdleService,
-    @Optional() @Inject(DFP_CONFIG)
-    private config: DfpConfig,
+    @Inject(DFP_CONFIG) private config: DfpConfig,
     private scriptInjector: ScriptInjectorService
   ) {
-    this.dfpConfig(config);
     if (isPlatformBrowser(this.platformId)) {
       const win: any = window,
         googletag = win.googletag || {};
+
+      this.dfpConfig();
 
       googletag.cmd = googletag.cmd || [];
       googletag.cmd.push(() => {
@@ -65,10 +65,10 @@ export class DfpService {
     }
   }
 
-  private dfpConfig(config: DfpConfig) {
-    for (const key in config) {
+  private dfpConfig() {
+    for (const key in this.config) {
       if (this.hasOwnProperty(key)) {
-        this[key] = config[key];
+        this[key] = this.config[key];
       }
     }
   }
@@ -147,6 +147,9 @@ export class DfpService {
     pubads.enableAsyncRendering();
 
     if (this.config.singleRequestMode !== true) {
+      if (this.config.enableVideoAds) {
+        pubads.enableVideoAds();
+      }
       googletag.enableServices();
     }
 

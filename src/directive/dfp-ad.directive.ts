@@ -55,7 +55,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
     private dfpRefresh: DfpRefreshService,
-    @Optional() @Inject(DFP_CONFIG) config: DfpConfig,
+    @Inject(DFP_CONFIG) private config: DfpConfig,
     @Optional() router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -67,7 +67,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       if (router) {
         this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
           .subscribe((event: NavigationEnd) => {
-            if (this.slot && !this.refresh && config.onSameNavigation === 'refresh') {
+            if (this.slot && !this.refresh && this.config.onSameNavigation === 'refresh') {
               this.refreshContent.call(this);
             }
           });
@@ -156,6 +156,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     ad.scripts.forEach(script => { script(this.slot); });
 
+    if (this.config.enableVideoAds) {
+      this.slot.addService(googletag.companionAds());
+    }
     this.slot.addService(googletag.pubads());
 
     this.refreshContent();
