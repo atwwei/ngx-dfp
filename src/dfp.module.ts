@@ -15,6 +15,7 @@ import {
   DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
+  DfpVideoDirective,
   DfpAudiencePixelDirective
 } from './directive';
 
@@ -22,6 +23,7 @@ const DIRECTIVES = [
   DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
+  DfpVideoDirective,
   DfpAudiencePixelDirective
 ];
 
