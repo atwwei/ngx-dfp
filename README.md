@@ -2,18 +2,31 @@
 
 Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.0.
 
-```HTML
+dfp-ad 
+
+```AD
 <dfp-ad adUnit="/path-to-my/ad-unit" responsive (afterRefresh)="refreshed($event)">
-    <dfp-size [width]="320" [height]="50"></dfp-size>
-    <dfp-size [width]="728" [height]="90"></dfp-size>
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-responsive [viewport]="[800,0]" [adSizes]="[[728,90],[600,300]]"></dfp-responsive>
+  <dfp-responsive [viewWidth]="1024">
     <dfp-size [width]="970" [height]="90"></dfp-size>
-    <dfp-targeting key="food">
-        <dfp-value>chicken</dfp-value>
-        <dfp-value>meatballs</dfp-value>
-        <dfp-value>ice cream</dfp-value>
-    </dfp-targeting>
+    <dfp-size [width]="1024" [height]="90"></dfp-size>
+  </dfp-responsive>
+  <dfp-targeting key="food" [value]="['chicken','meatballs']"></dfp-targeting>
 </dfp-ad>
 ```
+
+dfp-video 
+
+```VIDEO
+<dfp-video width="640" height="480" [adActions]="adInput" (adEvents)="adEvent($event)" adTag="dfpVideoTag">
+  <video preload="auto" poster="/path/poster.jpg">
+    <source src="/assets/demo.mp4">
+  </video>
+</dfp-video>
+<button (click)="adInput.emit('play')">Play AD</button>
+```
+[Sample DFP Video tags](https://developers.google.com/interactive-media-ads/docs/sdks/html5/tags)
 
 ## DfpConfig
 
