@@ -101,17 +101,15 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   private setResponsiveMapping(slot) {
     const ad = this.getState();
 
+    if (ad.responsiveMapping.length === 0) {
+      return;
+    }
+
     const sizeMapping = googletag.sizeMapping();
 
-    if (ad.responsiveMapping.length === 0) {
-      ad.sizes.forEach(function (size) {
-        sizeMapping.addSize([size[0], 0], [size]);
-      });
-    } else {
-      ad.responsiveMapping.forEach(function (mapping) {
-        sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
-      });
-    }
+    ad.responsiveMapping.forEach(function (mapping) {
+      sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
+    });
 
     slot.defineSizeMapping(sizeMapping.build());
   }
