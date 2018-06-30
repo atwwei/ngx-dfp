@@ -26,6 +26,9 @@ dfp-video
 </dfp-video>
 <button (click)="adInput.emit('play')">Play AD</button>
 ```
+
+[Sample styles](https://github.com/atwwei/ngx-dfp/blob/daa9e7bc6d8df7622cc9b18b3d952d92f5a5ecb4/demo/app/page/page.component.scss)
+
 [Sample DFP Video tags](https://developers.google.com/interactive-media-ads/docs/sdks/html5/tags)
 
 ## DfpConfig
