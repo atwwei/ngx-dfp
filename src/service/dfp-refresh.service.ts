@@ -1,7 +1,9 @@
 import { Injectable, EventEmitter, Optional, Injector, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { Subscription, timer, from } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { timer } from 'rxjs/observable/timer';
+import { from } from 'rxjs/observable/from';
 
 import { DfpConfig, DFP_CONFIG } from '../class';
 import { ParseDurationService } from './parse-duration.service';
@@ -38,7 +40,7 @@ export class DfpRefreshService {
       }
     });
 
-    if (this.config && this.config.singleRequestMode === true && initRefresh) {
+    if (this.config.singleRequestMode === true && initRefresh) {
       // Use a timer to handle refresh of a single request mode
       this.refreshSlots.push(slot);
       if (this.singleRequest && !this.singleRequest.closed) {

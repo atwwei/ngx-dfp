@@ -14,14 +14,18 @@ import {
 import {
   DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
+  DfpResponsiveDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
+  DfpVideoDirective,
   DfpAudiencePixelDirective
 } from './directive';
 
 const DIRECTIVES = [
   DfpAdDirective, DfpAdResponsiveDirective,
   DfpSizeDirective,
+  DfpResponsiveDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
+  DfpVideoDirective,
   DfpAudiencePixelDirective
 ];
 

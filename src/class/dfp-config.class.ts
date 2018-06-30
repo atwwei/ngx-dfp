@@ -8,6 +8,7 @@ export class DfpConfig {
   idleLoad?: boolean;
   onSameNavigation?: 'refresh' | 'ignore';
   singleRequestMode?: boolean;
+  enableVideoAds?: boolean;
   collapseIfEmpty?: boolean;
   centering?: boolean;
   location?: string | Array<string>;
@@ -18,4 +19,6 @@ export class DfpConfig {
   loadGPT?: boolean;
 }
 
-export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig');
+export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig', {
+  factory: () => new DfpConfig()
+});

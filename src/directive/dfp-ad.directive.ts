@@ -55,7 +55,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     private dfp: DfpService,
     private dfpIDGenerator: DfpIDGeneratorService,
     private dfpRefresh: DfpRefreshService,
-    @Optional() @Inject(DFP_CONFIG) config: DfpConfig,
+    @Inject(DFP_CONFIG) private config: DfpConfig,
     @Optional() router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -67,7 +67,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       if (router) {
         this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
           .subscribe((event: NavigationEnd) => {
-            if (this.slot && !this.refresh && config && config.onSameNavigation === 'refresh') {
+            if (this.slot && !this.refresh && this.config.onSameNavigation === 'refresh') {
               this.refreshContent.call(this);
             }
           });
@@ -101,17 +101,15 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   private setResponsiveMapping(slot) {
     const ad = this.getState();
 
+    if (ad.responsiveMapping.length === 0) {
+      return;
+    }
+
     const sizeMapping = googletag.sizeMapping();
 
-    if (ad.responsiveMapping.length === 0) {
-      ad.sizes.forEach(function (size) {
-        sizeMapping.addSize([size[0], 0], [size]);
-      });
-    } else {
-      ad.responsiveMapping.forEach(function (mapping) {
-        sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
-      });
-    }
+    ad.responsiveMapping.forEach(function (mapping) {
+      sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
+    });
 
     slot.defineSizeMapping(sizeMapping.build());
   }
@@ -156,6 +154,9 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     ad.scripts.forEach(script => { script(this.slot); });
 
+    if (this.config.enableVideoAds) {
+      this.slot.addService(googletag.companionAds());
+    }
     this.slot.addService(googletag.pubads());
 
     this.refreshContent();
