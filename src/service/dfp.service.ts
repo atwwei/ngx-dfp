@@ -14,7 +14,7 @@ export class DfpService {
 
   private enableVideoAds = false;
 
-  private personalizedAds = false;
+  private personalizedAds = true;
 
   private collapseIfEmpty = true;
 
