@@ -3,7 +3,6 @@
 # compiled output
 /demo
 /dist
-/lib
 /src
 
 # ngc
