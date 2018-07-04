@@ -107,7 +107,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     const sizeMapping = googletag.sizeMapping();
 
-    ad.responsiveMapping.forEach(function(mapping) {
+    ad.responsiveMapping.forEach(mapping => {
       sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
     });
 
@@ -158,11 +158,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       this.slot.addService(googletag.companionAds());
     }
 
-    if (!this.config.personalizedAds) {
-      this.slot.addService(googletag.pubads().setRequestNonPersonalizedAds(1));
-    } else {
-      this.slot.addService(googletag.pubads());
-    }
+    this.slot.addService(googletag.pubads());
 
     this.refreshContent();
   }
