@@ -39,7 +39,7 @@ Config dfp with the optional options below:
 DfpModule.forRoot({
   idleLoad: true,
   enableVideoAds: true,
-  personalizedAds: false,
+  personalizedAds: false, // Request non-personalized ads
   singleRequestMode: true,
   onSameNavigation: 'refresh',
   globalTargeting: {
