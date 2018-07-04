@@ -2,7 +2,7 @@
 
 Semantic DoubleClick for Publishers (DFP by Google) integration with Angular v4.0.
 
-dfp-ad 
+dfp-ad
 
 ```AD
 <dfp-ad adUnit="/path-to-my/ad-unit" responsive (afterRefresh)="refreshed($event)">
@@ -16,7 +16,7 @@ dfp-ad
 </dfp-ad>
 ```
 
-dfp-video 
+dfp-video
 
 ```VIDEO
 <dfp-video width="640" height="480" [adActions]="adInput" (adEvents)="adEvent($event)" adTag="dfpVideoTag">
@@ -38,7 +38,9 @@ Config dfp with the code below:
 ```HTML
 DfpModule.forRoot({
   idleLoad: true,
-  singleRequestMode: true,
+  enableVideoAds: true,
+  personalizedAds: false, // Request personalized ads by default
+  singleRequestMode: true, // Only applies to initial refresh
   onSameNavigation: 'refresh',
   globalTargeting: {
     food: ['chicken', 'meatballs']
@@ -50,4 +52,3 @@ DfpModule.forRoot({
 
 - Source of demo page: [Demo Source](https://github.com/atwwei/ngx-dfp/tree/master/demo)
 - Demo page for ngx-dfp available here: [Demo Page](https://atwwei.github.io/ngx-dfp/demo)
-
