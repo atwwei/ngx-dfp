@@ -130,8 +130,9 @@ export class DfpService {
       pubads.enableVideoAds();
     }
 
-    if (this.personalizedAds) {
-      pubads.personalizedAds();
+    // personalizedAds is default
+    if (this.personalizedAds === false) {
+      pubads.setRequestNonPersonalizedAds(1);
     }
 
     if (this.collapseIfEmpty) {
