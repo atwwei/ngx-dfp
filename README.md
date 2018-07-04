@@ -33,11 +33,13 @@ dfp-video
 
 ## DfpConfig
 
-Config dfp with the code below:
+Config dfp with the optional options below:
 
 ```HTML
 DfpModule.forRoot({
   idleLoad: true,
+  enableVideoAds: true,
+  personalizedAds: false,
   singleRequestMode: true,
   onSameNavigation: 'refresh',
   globalTargeting: {
