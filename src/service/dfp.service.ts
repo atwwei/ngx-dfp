@@ -14,6 +14,8 @@ export class DfpService {
 
   private enableVideoAds = false;
 
+  private personalizedAds = false;
+
   private collapseIfEmpty = true;
 
   private centering = false;
@@ -126,6 +128,10 @@ export class DfpService {
 
     if (this.enableVideoAds) {
       pubads.enableVideoAds();
+    }
+
+    if (this.personalizedAds) {
+      pubads.personalizedAds();
     }
 
     if (this.collapseIfEmpty) {

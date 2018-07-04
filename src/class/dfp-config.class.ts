@@ -9,6 +9,7 @@ export class DfpConfig {
   onSameNavigation?: 'refresh' | 'ignore';
   singleRequestMode?: boolean;
   enableVideoAds?: boolean;
+  personalizedAds?: boolean;
   collapseIfEmpty?: boolean;
   centering?: boolean;
   location?: string | Array<string>;
