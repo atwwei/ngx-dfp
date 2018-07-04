@@ -34,7 +34,7 @@ import { AppComponent } from './app.component';
     DfpModule.forRoot({
       idleLoad: true,
       enableVideoAds: true,
-      personalizedAds: true,
+      personalizedAds: false, // Request personalized ads by default
       singleRequestMode: true, // Only applies to initial refresh
       onSameNavigation: 'refresh',
       globalTargeting: {
