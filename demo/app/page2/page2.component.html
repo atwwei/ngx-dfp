@@ -1,0 +1,37 @@
+<h1>
+    {{title}}
+</h1>
+
+<h3>
+    <a routerLink="/">Home</a> <a routerLink="/somepage">SomePage</a> <a routerLink="/somepage1">SomePage1</a>
+</h3>
+
+<h2>
+    320x50 or 728x90 or 970x90 responsive
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase" responsive>
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-size [width]="728" [height]="90"></dfp-size>
+  <dfp-size [width]="970" [height]="90"></dfp-size>
+  <dfp-targeting key="food">
+    <dfp-value>chicken</dfp-value>
+    <dfp-value>meatballs</dfp-value>
+    <dfp-value>ice cream</dfp-value>
+  </dfp-targeting>
+</dfp-ad>
+
+<h2>
+    320x50 afterRefresh
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase" (afterRefresh)="refreshed($event)">
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-targeting key="food" [value]="['chicken','meatballs']"></dfp-targeting>
+</dfp-ad>
+
+<h2>
+    320x50
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase">
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-targeting key="sport" value="football"></dfp-targeting>
+</dfp-ad>

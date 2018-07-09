@@ -1,0 +1,61 @@
+<h1>
+  {{title}}
+</h1>
+
+<h3>
+  <a routerLink="/">Home</a>
+  <a routerLink="/somepage">SomePage</a>
+  <a routerLink="/somepage1">SomePage1</a>
+</h3>
+
+<h2>
+  320x50 or 728x90 or 970x90 responsive
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase" responsive>
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-size [width]="728" [height]="90"></dfp-size>
+  <dfp-size [width]="970" [height]="90"></dfp-size>
+  <dfp-targeting key="food">
+    <dfp-value>chicken</dfp-value>
+    <dfp-value>meatballs</dfp-value>
+    <dfp-value>ice cream</dfp-value>
+  </dfp-targeting>
+</dfp-ad>
+
+<h2>
+  Responsive size mapping
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase">
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-responsive [viewport]="[800,0]" [adSizes]="[[728,90],[600,300]]"></dfp-responsive>
+  <dfp-responsive [viewWidth]="1024">
+    <dfp-size [width]="970" [height]="90"></dfp-size>
+    <dfp-size [width]="1024" [height]="90"></dfp-size>
+  </dfp-responsive>
+</dfp-ad>
+
+<h2>
+  320x50 afterRefresh
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase" (afterRefresh)="refreshed($event)">
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-targeting key="food" [value]="['chicken','meatballs']"></dfp-targeting>
+</dfp-ad>
+
+<h2>
+  320x50
+</h2>
+<dfp-ad adUnit="/35096353/pub-showcase">
+  <dfp-size [width]="320" [height]="50"></dfp-size>
+  <dfp-targeting key="sport" value="football"></dfp-targeting>
+</dfp-ad>
+
+<h2>
+  video ad , click to start
+</h2>
+<dfp-video width="640" height="480" [adActions]="adInput" (adEvents)="adEvent($event)" adTag="https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator=">
+  <video class="video-js" controls preload="auto" data-setup="{}" poster="https://developers.google.com/interactive-media-ads/images/vsi_poster.jpg">
+    <source src="/assets/demo.mp4">
+  </video>
+  <div class="ad-container" (click)="adInput.emit('play')"></div>
+</dfp-video>
