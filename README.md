@@ -33,14 +33,19 @@ dfp-video
 
 ## DfpConfig
 
-Config dfp with the code below:
+Config dfp with the optional options below:
 
 ```HTML
 DfpModule.forRoot({
   idleLoad: true,
   enableVideoAds: true,
+<<<<<<< HEAD
   personalizedAds: false, // Request personalized ads by default
   singleRequestMode: true, // Only applies to initial refresh
+=======
+  personalizedAds: false, // Request non-personalized ads
+  singleRequestMode: true,
+>>>>>>> 7eb31a4d4cada786f9e1881b8346ad1e4fd7721c
   onSameNavigation: 'refresh',
   globalTargeting: {
     food: ['chicken', 'meatballs']
