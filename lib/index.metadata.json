@@ -1,1 +1,0 @@
-[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./service"},{"from":"./directive"},{"from":"./dfp.module","export":["DfpModule"]}]}]

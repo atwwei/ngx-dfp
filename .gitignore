@@ -2,9 +2,7 @@
 
 # compiled output
 /dist
-/dist/*
 /lib
-/lib/*
 
 # ngc
 *.ngsummary.json
