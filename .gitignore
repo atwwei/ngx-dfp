@@ -2,8 +2,6 @@
 
 # compiled output
 /dist
-/demo
-/src
 
 # ngc
 *.ngsummary.json
