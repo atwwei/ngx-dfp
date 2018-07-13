@@ -31,6 +31,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
   @Input() forceSafeFrame: boolean;
   @Input() safeFrameConfig: string;
   @Input() refresh: string;
+  @Input() personalizedAds: boolean = this.config.personalizedAds;
   @Input() collapseIfEmpty: boolean;
 
   @Output() afterRefresh: EventEmitter<DfpRefreshEvent> = new EventEmitter();
@@ -124,6 +125,11 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       this.slot.setForceSafeFrame(true);
     }
 
+    if (this.personalizedAds === true) {
+      this.slot.set('requestNonPersonalizedAds', 0);
+      googletag.pubads().setRequestNonPersonalizedAds(0);
+    }
+
     if (ad.clickUrl) {
       this.slot.setClickUrl(ad.clickUrl);
     }
@@ -194,6 +200,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       safeFrameConfig: this.safeFrameConfig,
       clickUrl: this.clickUrl,
       refresh: this.refresh,
+      personalizedAds: this.personalizedAds === this.config.personalizedAds,
       scripts: this.scripts,
       collapseIfEmpty: this.collapseIfEmpty === true
     });
