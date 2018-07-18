@@ -6,8 +6,8 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
+import { filter } from 'rxjs/operators/filter';
 
 import { DfpService, DfpIDGeneratorService, DfpRefreshService } from '../service';
 

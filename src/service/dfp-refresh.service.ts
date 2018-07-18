@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, Optional, Injector, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { timer } from 'rxjs/observable/timer';
 import { from } from 'rxjs/observable/from';
 
