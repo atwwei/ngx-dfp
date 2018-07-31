@@ -120,8 +120,8 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
     this.slot = googletag.defineSlot(ad.adUnit, ad.sizes, element.id);
 
-    if (ad.forceSafeFrame !== undefined) {
-      this.slot.setForceSafeFrame(true);
+    if (this.forceSafeFrame !== undefined && ad.forceSafeFrame === !this.config.forceSafeFrame) {
+      this.slot.setForceSafeFrame(ad.forceSafeFrame);
     }
 
     if (ad.clickUrl) {
