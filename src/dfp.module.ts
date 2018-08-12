@@ -1,29 +1,32 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
 
-import { DFP_CONFIG, DfpConfig } from './class';
+import { DfpConfig, } from './class';
+import { DFP_CONFIG } from './service/injection_token';
 
-import {
-  IdleLoad,
-  HttpErrorService,
-  ParseDurationService,
-  ScriptInjectorService,
-  DfpService, DfpIDGeneratorService, DfpRefreshService
-} from './service';
+import { IdleService } from './service/idle.service';
+import { HttpErrorService } from './service/http-error.service';
+import { ParseDurationService } from './service/parse-duration.service';
+import { ScriptInjectorService } from './service/script-injector.service';
+import { DfpService } from './service/dfp.service';
+import { DfpIDGeneratorService } from './service/dfp-id-generator.service';
+import { DfpRefreshService } from './service/dfp-refresh.service';
 
-import {
-  DfpAdDirective, DfpAdResponsiveDirective,
-  DfpSizeDirective,
-  DfpResponsiveDirective,
-  DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
-  DfpVideoDirective,
-  DfpAudiencePixelDirective
-} from './directive';
+import { DfpAdDirective } from './directive/dfp-ad.directive';
+import { DfpSizeDirective } from './directive/dfp-size.directive';
+import { DfpResponsiveDirective } from './directive/dfp-responsive.directive';
+import { DfpAdResponsiveDirective } from './directive/dfp-ad-responsive.directive';
+import { DfpTargetingDirective } from './directive/dfp-targeting.directive';
+import { DfpExclusionDirective } from './directive/dfp-exclusion.directive';
+import { DfpValueDirective } from './directive/dfp-value.directive';
+import { DfpVideoDirective } from './directive/dfp-video.directive';
+import { DfpAudiencePixelDirective } from './directive/dfp-audience-pixel.directive';
 
 const DIRECTIVES = [
-  DfpAdDirective, DfpAdResponsiveDirective,
+  DfpAdDirective,
   DfpSizeDirective,
   DfpResponsiveDirective,
+  DfpAdResponsiveDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
   DfpVideoDirective,
   DfpAudiencePixelDirective
@@ -55,7 +58,7 @@ export class DfpModule {
     return {
       ngModule: DfpModule,
       providers: [
-        ...(config && config.idleLoad === true ? [IdleLoad] : []),
+        ...(config && config.idleLoad === true ? [IdleService] : []),
         { provide: DFP_CONFIG, useValue: config || {} }
       ]
     };

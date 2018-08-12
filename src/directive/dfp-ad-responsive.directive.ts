@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import { DfpAdDirective } from './dfp-ad.directive';
-import { DfpRefreshService } from '../service';
+import { DfpRefreshService } from '../service/dfp-refresh.service';
 
 @Directive({
     selector: 'dfp-ad[responsive]'
