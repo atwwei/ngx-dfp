@@ -51,5 +51,5 @@ DfpModule.forRoot({
 ## Demo
 
 - Source of demo page: [Demo Source](https://github.com/atwwei/ngx-dfp/tree/master/demo)
-- Demo page for ngx-dfp available here: [Demo Page](https://atwwei.github.io/ngx-dfp/demo)
+- Online demo using StackBlitz: [Editor URL](https://stackblitz.com/edit/angular-fftqvj)
 
