@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 import { loadImaSdk } from '@alugha/ima';
 
-import { DfpIDGeneratorService } from '../service';
+import { DfpIDGeneratorService } from '../service/dfp-id-generator.service';
 
 @Directive({
   selector: 'dfp-video'

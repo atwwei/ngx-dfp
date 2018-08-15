@@ -1,5 +1,3 @@
-import { InjectionToken } from '@angular/core';
-
 export class DfpTargeting {
   [key: string]: Array<string>;
 }
@@ -19,7 +17,3 @@ export class DfpConfig {
   safeFrameConfig?: object;
   loadGPT?: boolean;
 }
-
-export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig', {
-  factory: () => new DfpConfig()
-});

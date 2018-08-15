@@ -3,7 +3,8 @@ import { DOCUMENT } from '@angular/common';
 
 import { Subscription, timer, from } from 'rxjs';
 
-import { DfpConfig, DFP_CONFIG } from '../class';
+import { DfpConfig } from '../class';
+import { DFP_CONFIG } from './injection_token';
 import { ParseDurationService } from './parse-duration.service';
 
 class DFPRefreshError extends Error { }
