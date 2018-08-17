@@ -1,25 +1,29 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "rootDir": "./src",
-        "outDir": "./lib",
-        "sourceMap": true,
-        "declaration": true,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "inlineSources": true,
-        "target": "es5",
-        "types": [],
-        "lib": [
-            "es2016",
-            "dom"
-        ]
-    },
-    "files": [
-        "src/index.ts"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
     ],
-    "angularCompilerOptions": {
-        "strictMetadataEmit": true
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "ngx-dfp": [
+        "./lib"
+      ],
+      "ngx-dfp/*": [
+        "./lib/*"
+      ]
     }
+  }
 }
