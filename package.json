@@ -2,6 +2,7 @@
   "name": "ngx-dfp-demo",
   "version": "0.0.0",
   "description": "Demo for ngx-dfp test",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
