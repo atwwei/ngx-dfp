@@ -1,4 +1,4 @@
-import { Injectable, Optional, PLATFORM_ID, Inject, InjectionToken } from '@angular/core';
+import { Injectable, Optional, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { DFP_CONFIG } from './injection_token';
@@ -9,8 +9,6 @@ import { ScriptInjectorService } from './script-injector.service';
 export const GPT_LIBRARY_URL = '//www.googletagservices.com/tag/js/gpt.js';
 
 class DFPConfigurationError extends Error { }
-
-// export const DFP_CONFIG = new InjectionToken<DfpConfig>('dfpConfig');
 
 @Injectable()
 export class DfpService {

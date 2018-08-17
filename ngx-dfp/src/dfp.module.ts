@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
 
 import { DfpConfig, } from './class';
