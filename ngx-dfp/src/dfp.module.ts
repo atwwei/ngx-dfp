@@ -19,7 +19,6 @@ import { DfpAdResponsiveDirective } from './directive/dfp-ad-responsive.directiv
 import { DfpTargetingDirective } from './directive/dfp-targeting.directive';
 import { DfpExclusionDirective } from './directive/dfp-exclusion.directive';
 import { DfpValueDirective } from './directive/dfp-value.directive';
-import { DfpVideoDirective } from './directive/dfp-video.directive';
 import { DfpAudiencePixelDirective } from './directive/dfp-audience-pixel.directive';
 
 const DIRECTIVES = [
@@ -28,7 +27,6 @@ const DIRECTIVES = [
   DfpResponsiveDirective,
   DfpAdResponsiveDirective,
   DfpTargetingDirective, DfpExclusionDirective, DfpValueDirective,
-  DfpVideoDirective,
   DfpAudiencePixelDirective
 ];
 

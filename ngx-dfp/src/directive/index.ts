@@ -5,5 +5,4 @@ export { DfpSizeDirective } from './dfp-size.directive';
 export { DfpTargetingDirective } from './dfp-targeting.directive';
 export { DfpExclusionDirective } from './dfp-exclusion.directive';
 export { DfpValueDirective } from './dfp-value.directive';
-export { DfpVideoDirective } from './dfp-video.directive';
 export { DfpAudiencePixelDirective } from './dfp-audience-pixel.directive';
