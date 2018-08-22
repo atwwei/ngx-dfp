@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
 
-import { DfpVideoDirective } from 'ngx-dfp';
+import { DfpVideoDirective } from 'ngx-dfp/video';
 
 @Component({
   selector: 'app-page',

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { DfpModule } from 'ngx-dfp';
+import { DfpVideoModule } from 'ngx-dfp/video';
 
 import { PageComponent } from './page.component';
 
@@ -11,6 +12,7 @@ import { PageComponent } from './page.component';
   ],
   imports: [
     DfpModule,
+    DfpVideoModule,
     RouterModule.forChild([
       {
         path: '',
