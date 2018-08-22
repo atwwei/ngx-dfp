@@ -54,8 +54,8 @@
   video ad , click to start
 </h2>
 <dfp-video width="640" height="480" [adActions]="adInput" (adEvents)="adEvent($event)" adTag="https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator=">
-  <video class="video-js" controls preload="auto" data-setup="{}" poster="https://developers.google.com/interactive-media-ads/images/vsi_poster.jpg">
-    <source src="/assets/demo.mp4">
-  </video>
+  <video class="video-js" controls preload="auto" data-setup="{}" poster="https://google-developers.appspot.com/interactive-media-ads/images/vsi_poster.jpg">
+		<source src="//s0.2mdn.net/4253510/google_ddm_animation_480P.mp4">
+	</video>
   <div class="ad-container" (click)="adInput.emit('play')"></div>
 </dfp-video>
