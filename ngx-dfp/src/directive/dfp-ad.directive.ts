@@ -141,9 +141,11 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
       );
     }
 
-    this.slot.renderEnded = (googleSlotEvent: IArguments) => {
-      this.afterRefresh.emit({ type: 'renderEnded', slot: this.slot, data: googleSlotEvent });
-    };
+    googletag.pubads().addEventListener('slotRenderEnded', (event) => {
+      if (event.slot === this.slot) {
+        this.afterRefresh.emit({ type: 'renderEnded', slot: this.slot, data: event });
+      }
+    });
 
     this.setResponsiveMapping(this.slot);
 
