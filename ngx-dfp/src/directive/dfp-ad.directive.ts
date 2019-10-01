@@ -6,8 +6,8 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { DfpService, } from '../service/dfp.service';
 import { DfpIDGeneratorService, } from '../service/dfp-id-generator.service';
@@ -50,7 +50,7 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private slot: GoogleSlot;
 
-  private onSameNavigation: Subscription;
+  private unsubscribe$ = new Subject();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -62,18 +62,21 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     @Optional() router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
-      this.dfpRefresh.refreshEvent.subscribe(slot => {
+      this.dfpRefresh.refreshEvent.pipe(takeUntil(this.unsubscribe$)).subscribe(slot => {
         if (slot === this.slot) {
           this.afterRefresh.emit({ type: 'refresh', slot: slot });
         }
       });
       if (router) {
-        this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
-          .subscribe((event: NavigationEnd) => {
-            if (this.slot && !this.refresh && this.config.onSameNavigation === 'refresh') {
-              this.refreshContent.call(this);
-            }
-          });
+        this.onSameNavigation = router.events.pipe(
+          filter(event => event instanceof NavigationEnd),
+          takeUntil(this.unsubscribe$)
+        )
+        .subscribe((event: NavigationEnd) => {
+          if (this.slot && !this.refresh && this.config.onSameNavigation === 'refresh') {
+            this.refreshContent.call(this);
+          }
+        });
       }
     }
   }
@@ -96,9 +99,8 @@ export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
     if (this.slot) {
       googletag.destroySlots([this.slot]);
     }
-    if (this.onSameNavigation) {
-      this.onSameNavigation.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private setResponsiveMapping(slot) {
