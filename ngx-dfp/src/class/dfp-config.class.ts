@@ -16,4 +16,6 @@ export class DfpConfig {
   forceSafeFrame?: boolean;
   safeFrameConfig?: object;
   loadGPT?: boolean;
+  disableInitialLoad?: boolean;
+  onBeforeDisplay?: Function;
 }
