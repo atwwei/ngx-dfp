@@ -48,7 +48,15 @@ export class DfpRefreshService {
       this.singleRequest = timer(100).subscribe(() => {
         const pubads = googletag.pubads();
         pubads.enableSingleRequest();
+        if (this.config.disableInitialLoad) {
+          pubads.disableInitialLoad();
+        }
         googletag.enableServices();
+
+        if (this.config.onBeforeDisplay && typeof this.config.onBeforeDisplay === 'function') {
+          this.config.onBeforeDisplay();
+        }
+
         this.refreshSlots.forEach(s => {
           googletag.display(s.getSlotElementId());
         });
