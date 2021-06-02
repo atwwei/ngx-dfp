@@ -14,7 +14,6 @@
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
   "dependencies": {
-    "@alugha/ima": "^1.1.2",
     "@angular/common": "^6.0.0",
     "@angular/core": "^6.0.0",
     "@angular/http": "^6.0.0",
@@ -23,7 +22,6 @@
     "@angular/router": "^6.0.0",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
-    "video.js": "^7.0.3",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

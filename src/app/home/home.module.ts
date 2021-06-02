@@ -3,20 +3,20 @@ import { RouterModule } from '@angular/router';
 
 import { DfpModule } from 'ngx-dfp';
 
-import { Page2Component } from './page2.component';
+import { HomeComponent } from './home.component';
 
 @NgModule({
   declarations: [
-    Page2Component
+    HomeComponent
   ],
   imports: [
     DfpModule,
     RouterModule.forChild([
       {
         path: '',
-        component: Page2Component
+        component: HomeComponent
       }
     ])
   ]
 })
-export class Page2Module { }
+export class HomeModule { }

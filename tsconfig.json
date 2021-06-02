@@ -17,12 +17,17 @@
       "es2017",
       "dom"
     ],
+    // "paths": {
+    //   "ngx-dfp": [
+    //     "./ngx-dfp/src"
+    //   ],
+    //   "ngx-dfp/*": [
+    //     "./ngx-dfp/src/*"
+    //   ]
+    // }
     "paths": {
       "ngx-dfp": [
         "./lib"
-      ],
-      "ngx-dfp/*": [
-        "./lib/*"
       ]
     }
   }

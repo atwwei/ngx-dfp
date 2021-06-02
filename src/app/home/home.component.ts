@@ -5,10 +5,10 @@ import { DfpService } from 'ngx-dfp';
 import { DemoComponent } from '../demo.component';
 
 @Component({
-  selector: 'app-page',
-  templateUrl: './page.component.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
 })
-export class PageComponent extends DemoComponent {
+export class HomeComponent extends DemoComponent {
   constructor(
     dfp: DfpService
   ) {

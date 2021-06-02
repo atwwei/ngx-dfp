@@ -1,227 +1,50 @@
-import {
-  Directive, ElementRef,
-  Input, Output, EventEmitter,
-  OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, Optional
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { googletag, DfpAdMapping, DfpAdTargeting } from '../types';
+import { DfpService } from '../service/dfp.service';
 
-import { DfpService, } from '../service/dfp.service';
-import { DfpIDGeneratorService, } from '../service/dfp-id-generator.service';
-import { DfpRefreshService } from '../service/dfp-refresh.service';
-
-import { DFPIncompleteError, GoogleSlot, DfpConfig } from '../class';
-import { DFP_CONFIG } from '../service/injection_token';
-
-declare var googletag;
-
-export class DfpRefreshEvent {
-  type: string;
-  slot: any;
-  data?: any;
-}
-
+/**
+ * @link https://developers.google.com/publisher-tag/
+ */
 @Directive({
-  selector: 'dfp-ad'
+  selector: '[dfpAd]'
 })
-export class DfpAdDirective implements OnInit, AfterViewInit, OnDestroy {
+export class DfpAdDirective {
+  private _element: Element;
 
-  @Input() adUnit: string;
-  @Input() clickUrl: string;
-  @Input() forceSafeFrame: boolean;
-  @Input() safeFrameConfig: string;
-  @Input() refresh: string;
-  @Input() collapseIfEmpty: boolean;
-
-  @Output() afterRefresh: EventEmitter<DfpRefreshEvent> = new EventEmitter();
-
-  private sizes = [];
-
-  private responsiveMapping = [];
-
-  private targetings = [];
-
-  private exclusions = [];
-
-  private scripts = [];
-
-  private slot: GoogleSlot;
-
-  private onSameNavigation: Subscription;
+  @Input('dfpAd') adUnitPath: string
+  @Input('dfpAdId') id: string;
+  @Input('dfpAdSize') size: googletag.GeneralSize;
+  @Input('dfpAdSizeMapping') sizeMapping: Array<DfpAdMapping>;
+  @Input('dfpAdTargeting') targeting: DfpAdTargeting;
+  @Input('dfpAdClickUrl') clickUrl: string;
+  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv: boolean | [boolean, boolean];
+  @Input('dfpAdContent') content: string;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private elementRef: ElementRef,
-    private dfp: DfpService,
-    private dfpIDGenerator: DfpIDGeneratorService,
-    private dfpRefresh: DfpRefreshService,
-    @Inject(DFP_CONFIG) private config: DfpConfig,
-    @Optional() router: Router
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.dfpRefresh.refreshEvent.subscribe(slot => {
-        if (slot === this.slot) {
-          this.afterRefresh.emit({ type: 'refresh', slot: slot });
-        }
-      });
-      if (router) {
-        this.onSameNavigation = router.events.pipe(filter(event => event instanceof NavigationEnd))
-          .subscribe((event: NavigationEnd) => {
-            if (this.slot && !this.refresh && this.config.onSameNavigation === 'refresh') {
-              this.refreshContent.call(this);
-            }
-          });
-      }
-    }
-  }
+    private _viewContainer: ViewContainerRef,
+    private _templateRef: TemplateRef<any>,
+    private renderer: Renderer2,
+    private dfpService: DfpService,
+  ) { }
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.dfpIDGenerator.dfpIDGenerator(this.elementRef.nativeElement);
+    if (this.adUnitPath) {
+      // render element
+      this._viewContainer.clear();
+      const view = this._viewContainer.createEmbeddedView(this._templateRef);
+      this._element = view.rootNodes[0];
+      // define slot
+      this.dfpService.push(this);
+      // clear template node
+      const tpl: Element = this._templateRef.elementRef.nativeElement;
+      this.renderer.removeChild(tpl.parentNode, tpl);
+    } else {
+      this._viewContainer.clear();
     }
   }
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.dfp.defineTask(() => {
-        this.defineSlot();
-      });
-    }
+  get element() {
+    return this._element;
   }
-
-  ngOnDestroy() {
-    if (this.slot) {
-      googletag.destroySlots([this.slot]);
-    }
-    if (this.onSameNavigation) {
-      this.onSameNavigation.unsubscribe();
-    }
-  }
-
-  private setResponsiveMapping(slot) {
-    const ad = this.getState();
-
-    if (ad.responsiveMapping.length === 0) {
-      return;
-    }
-
-    const sizeMapping = googletag.sizeMapping();
-
-    ad.responsiveMapping.forEach(mapping => {
-      sizeMapping.addSize(mapping.viewportSize, mapping.adSizes);
-    });
-
-    slot.defineSizeMapping(sizeMapping.build());
-  }
-
-  private defineSlot() {
-    const ad = this.getState(),
-      element = this.elementRef.nativeElement;
-
-    this.slot = googletag.defineSlot(ad.adUnit, ad.sizes, element.id);
-
-    if (this.forceSafeFrame !== undefined && ad.forceSafeFrame === !this.config.forceSafeFrame) {
-      this.slot.setForceSafeFrame(ad.forceSafeFrame);
-    }
-
-    if (ad.clickUrl) {
-      this.slot.setClickUrl(ad.clickUrl);
-    }
-
-    if (ad.collapseIfEmpty) {
-      this.slot.setCollapseEmptyDiv(true, true);
-    }
-
-    if (ad.safeFrameConfig) {
-      this.slot.setSafeFrameConfig(
-        (JSON.parse(ad.safeFrameConfig))
-      );
-    }
-
-    googletag.pubads().addEventListener('slotRenderEnded', (event) => {
-      if (event.slot === this.slot) {
-        this.afterRefresh.emit({ type: 'renderEnded', slot: this.slot, data: event });
-      }
-    });
-
-    this.setResponsiveMapping(this.slot);
-
-    ad.targetings.forEach(targeting => {
-      this.slot.setTargeting(targeting.key, targeting.values);
-    });
-
-    ad.exclusions.forEach(exclusion => {
-      this.slot.setCategoryExclusion(exclusion);
-    });
-
-    ad.scripts.forEach(script => { script(this.slot); });
-
-    if (this.config.enableVideoAds) {
-      this.slot.addService(googletag.companionAds());
-    }
-
-    this.slot.addService(googletag.pubads());
-
-    this.refreshContent();
-  }
-
-  private refreshContent() {
-    this.dfpRefresh.slotRefresh(this.slot, this.refresh, true).then(slot => {
-      this.afterRefresh.emit({ type: 'init', slot: slot });
-    });
-  }
-
-  checkValid() {
-    if (this.sizes.length === 0) {
-      throw new DFPIncompleteError('dfp-ad', 'dfp-size');
-    }
-    if (!this.adUnit) {
-      throw new DFPIncompleteError('dfp-ad', 'ad-unit', true);
-    }
-  }
-
-  get isHidden() {
-    return this.dfpRefresh.hiddenCheck(this.elementRef.nativeElement);
-  }
-
-  getState() {
-    this.checkValid();
-    return Object.freeze({
-      sizes: this.sizes,
-      responsiveMapping: this.responsiveMapping,
-      targetings: this.targetings,
-      exclusions: this.exclusions,
-      adUnit: this.adUnit,
-      forceSafeFrame: this.forceSafeFrame === true,
-      safeFrameConfig: this.safeFrameConfig,
-      clickUrl: this.clickUrl,
-      refresh: this.refresh,
-      scripts: this.scripts,
-      collapseIfEmpty: this.collapseIfEmpty === true
-    });
-  }
-
-  addSize(size) {
-    this.sizes.push(size);
-  }
-
-  addResponsiveMapping(mapping) {
-    this.responsiveMapping.push(mapping);
-  }
-
-  addTargeting(targeting) {
-    this.targetings.push(targeting);
-  }
-
-  addExclusion(exclusion) {
-    this.exclusions.push(exclusion);
-  }
-
-  addScript(script) {
-    this.scripts.push(script);
-  }
-
 }

@@ -4,43 +4,34 @@ import { RouterModule } from '@angular/router';
 
 import { DfpModule } from 'ngx-dfp';
 
-import * as videojs from 'video.js';
-window['videojs'] = videojs;
-
 import { AppComponent } from './app.component';
+import { DemoComponent } from './demo.component';
+import { BaseComponent } from './base.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DemoComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule,
+    DfpModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',
-        component: AppComponent,
         children: [
           {
             path: '',
-            loadChildren: './page/page.module#PageModule'
+            loadChildren: './home/home.module#HomeModule'
           },
           {
             path: ':page',
-            loadChildren: './page2/page2.module#Page2Module'
+            loadChildren: './page/page.module#PageModule'
           },
         ]
       }
     ]),
-    DfpModule.forRoot({
-      idleLoad: true,
-      enableVideoAds: true,
-      personalizedAds: false, // Request personalized ads by default
-      singleRequestMode: true, // Only applies to initial refresh
-      onSameNavigation: 'refresh',
-      globalTargeting: {
-        food: ['chicken', 'meatballs']
-      }
-    })
   ],
   bootstrap: [AppComponent]
 })

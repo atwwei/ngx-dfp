@@ -1,0 +1,21 @@
+<h1>
+    {{title}}
+</h1>
+
+<h3>
+    <a routerLink="/">Home</a> <a routerLink="/somepage">SomePage</a> <a routerLink="/somepage1">SomePage1</a>
+</h3>
+
+<h2>
+    320x50 or 728x90 or 970x90 responsive
+</h2>
+<p></p>
+<div *dfpAd="adUnitPath;size:size[0];content:'AD CONTENT'"></div>
+<p></p>
+<div *dfpAd="adUnitPath;size:size;sizeMapping:sizeMapping" id='responsive-ad'></div>
+<p></p>
+<div *dfpAd="adUnitPath;size:size[0]"></div>
+<p></p>
+<div *dfpAd="adUnitPath;size:size[1];targeting:targeting" [id]="'gpt-div-2'"></div>
+<p></p>
+<div *dfpAd="adUnitPath;size:'fluid';id:'gpt-div-3'" id='id-ignore'></div>
