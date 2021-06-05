@@ -23,11 +23,11 @@ import { BaseComponent } from './base.component';
         children: [
           {
             path: '',
-            loadChildren: './home/home.module#HomeModule'
+            loadChildren: ()=>import('./home/home.module').then(m => m.HomeModule)
           },
           {
             path: ':page',
-            loadChildren: './page/page.module#PageModule'
+            loadChildren: ()=>import('./page/page.module').then(m => m.PageModule)
           },
         ]
       }

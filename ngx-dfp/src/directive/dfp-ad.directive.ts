@@ -1,6 +1,6 @@
 import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { googletag, DfpAdMapping, DfpAdTargeting } from '../types';
+import { DfpAdMapping, DfpAdTargeting } from '../types';
 import { DfpService } from '../service/dfp.service';
 
 /**
@@ -10,16 +10,16 @@ import { DfpService } from '../service/dfp.service';
   selector: '[dfpAd]'
 })
 export class DfpAdDirective {
-  private _element: Element;
+  _element: Element | undefined;
 
-  @Input('dfpAd') adUnitPath: string
-  @Input('dfpAdId') id: string;
-  @Input('dfpAdSize') size: googletag.GeneralSize;
-  @Input('dfpAdSizeMapping') sizeMapping: Array<DfpAdMapping>;
-  @Input('dfpAdTargeting') targeting: DfpAdTargeting;
-  @Input('dfpAdClickUrl') clickUrl: string;
-  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv: boolean | [boolean, boolean];
-  @Input('dfpAdContent') content: string;
+  @Input('dfpAd') adUnitPath: string = '';
+  @Input('dfpAdId') id: string = '';
+  @Input('dfpAdSize') size: googletag.GeneralSize = [];
+  @Input('dfpAdSizeMapping') sizeMapping: googletag.SizeMappingArray | undefined;
+  @Input('dfpAdTargeting') targeting: DfpAdTargeting = {};
+  @Input('dfpAdClickUrl') clickUrl: string = '';
+  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv: boolean | [boolean, boolean] | undefined;
+  @Input('dfpAdContent') content: string | undefined;
 
   constructor(
     private _viewContainer: ViewContainerRef,

@@ -6,7 +6,7 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { bufferTime, debounce, filter } from 'rxjs/operators';
 
 import {
-  googletag, ScriptOptions, RefreshOptions, EventTypes, Event, ImpressionViewableEvent,
+  ScriptOptions, RefreshOptions, EventTypes, Event, ImpressionViewableEvent,
   SlotOnloadEvent, SlotRenderEndedEvent, SlotRequestedEvent, SlotResponseReceived, SlotVisibilityChangedEvent
 } from '../types';
 import { DfpAdDirective } from '../directive/dfp-ad.directive';
@@ -21,10 +21,10 @@ export class DfpService {
   private _events = new Subject<Event>();
   private debounceRefresh = new Subject<RefreshOptions>();
   private refreshQueue = new Subject<DfpAdDirective>();
-  private onSameNavigation: Subscription;
+  private onSameNavigation: Subscription | undefined;
 
   constructor(
-    @Inject(DOCUMENT) private document,
+    @Inject(DOCUMENT) private document: Document,
     private router: Router,
   ) {
     this.initializeGPT();
@@ -35,7 +35,7 @@ export class DfpService {
   /**
    * Removes the ads from the given slots and replaces them with blank content.
    */
-  clear(slots?: string[]) {
+  clear(slots?: googletag.Slot[]) {
     googletag.cmd.push(() => {
       googletag.destroySlots(slots);
       googletag.pubads().clear(slots);
@@ -62,7 +62,7 @@ export class DfpService {
    * Fetches and displays new ads for specific or all slots on the page.
    * Minimum interval time takes 1 second.
    */
-  refresh(slots?: string[], opt_options?: { changeCorrelator: boolean }) {
+  refresh(slots?: googletag.Slot[], opt_options?: { changeCorrelator: boolean }) {
     this.debounceRefresh.next({ slots: slots, opt_options: opt_options });
   }
 
@@ -115,9 +115,10 @@ export class DfpService {
   private addEventListeners() {
     Object.keys(EventTypes).forEach(type => {
       googletag.cmd.push(() => {
-        googletag.pubads().addEventListener(EventTypes[type], (e: googletag.events.Event) => {
+        const eventType = (EventTypes as any)[type];
+        googletag.pubads().addEventListener(eventType, (e: googletag.events.Event) => {
           let event = new Event();
-          switch (EventTypes[type]) {
+          switch (eventType) {
             case EventTypes.ImpressionViewableEvent:
               event = new ImpressionViewableEvent();
               break;
@@ -144,9 +145,9 @@ export class DfpService {
   }
 
   private define(dfpAds: DfpAdDirective[]) {
-    const ids = [];
+    const ids: string[] = [];
     dfpAds.forEach((ad, index) => {
-      ad.id = ad.id || ad.element.id;
+      ad.id = ad.id || ad.element?.id || '';
       if (!ad.id || ids.indexOf(ad.id) !== -1) {
         ad.id = 'dfp-ad-' + (index + Math.random()).toString();
       }
@@ -158,7 +159,7 @@ export class DfpService {
       'googletag.pubads().enableAsyncRendering();',
       'googletag.enableServices();',
     ];
-    const defines = [];
+    const defines: string[] = [];
     dfpAds.forEach((ad, index) => {
       if (ad.content) {
         defines.push('var slot' + index + '=googletag.defineSlot("' + ad.adUnitPath + '", ' + JSON.stringify(ad.size) + ', "' + ad.id + '").addService(googletag.content());');
@@ -173,7 +174,7 @@ export class DfpService {
     });
 
     dfpAds.forEach(ad => {
-      ad.element.setAttribute('id', ad.id);
+      ad.element?.setAttribute('id', ad.id);
       this.appendCmdScript({
         innerHTML: 'googletag.display("' + ad.id + '");'
       }, ad.element);
@@ -212,11 +213,9 @@ export class DfpService {
       scripts.push(separator + mappingScripts.join(''));
     }
 
-    if (ad.targeting) {
-      scripts.push(separator + Object.keys(ad.targeting).map((key) => {
-        return '.setTargeting("' + key + '", ' + JSON.stringify(ad.targeting[key]) + ')';
-      }).join(''));
-    }
+    scripts.push(separator + Object.keys(ad.targeting).map((key) => {
+      return '.setTargeting("' + key + '", ' + JSON.stringify(ad.targeting[key]) + ')';
+    }).join(''));
 
     return scripts.join('') + ';';
   }

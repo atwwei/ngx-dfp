@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { DfpService, googletag, SlotOnloadEvent } from 'ngx-dfp';
+import { DfpService, SlotOnloadEvent } from 'ngx-dfp';
 import { filter, takeUntil } from 'rxjs/operators';
 import { BaseComponent } from './base.component';
 

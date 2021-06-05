@@ -164,27 +164,27 @@ declare namespace googletag {
 
     /**
      * Destroys the given slots, removing all related objects and references of those slots from GPT. This API does not support passback slots and companion slots. Calling this API on a slot clears the ad and removes the slot object from the internal state maintained by GPT. Calling any more functions on the slot object will result in undefined behaviour. Note the browser may still not free the memory associated with that slot if a reference to it is maintained by the publisher page. Calling this API makes the div associated with that slot available for reuse. In particular, destroying a slot removes the ad from GPT's long-lived pageview, so future requests will not be influenced by roadblocks or competitive exclusions involving this ad. Failure to call this function before removing a slot's div from the page will result in undefined behavior.
-     * @param opt_slots he array of slots to destroy. Array is optional; all slots will be destroyed if it is unspecified.
+     * @param opt_slots The array of slots to destroy. Array is optional; all slots will be destroyed if it is unspecified.
      * @returns true if slots have been destroyed, false otherwise.
      */
-    function destroySlots(opt_slots): boolean;
+    function destroySlots(opt_slots?: Slot[]): boolean;
 
     /**
      * Disables the Google Publisher Console.
      */
-    function disablePublisherConsole();
+    function disablePublisherConsole(): void;
 
     /**
      * Instructs slot services to render the slot. Each ad slot should only be displayed once per page. All slots must be defined and have a service associated with them before being displayed. The display call must not happen until the element is present in the DOM. The usual way to achieve that is to place it within a script block within the div element named in the method call.
      * If single request architecture (SRA) is being used, all unfetched ad slots at the moment display is called will be fetched in a single instance of googletag.display(). To force an ad slot not to display, the entire div must be removed.
      * @param divOrSlot Either the ID of the div element containing the ad slot or the div element, or the slot object. If a div element is provided, it must have an 'id' attribute which matches the ID passed into googletag.defineSlot().
      */
-    function display(divOrSlot: string | Element);
+    function display(divOrSlot: string | Element): void;
 
     /**
      * Enables all GPT services that have been defined for ad slots on the page.
      */
-    function enableServices();
+    function enableServices(): void;
 
     /**
      * Returns the current version of GPT.
@@ -195,7 +195,7 @@ declare namespace googletag {
      * Opens the Google Publisher Console.
      * @param opt_div ID of the div element containing the ad slot.
      */
-    function openConsole(opt_div);
+    function openConsole(opt_div: string): void;
 
     /**
      * Returns a reference to the pubads service.
@@ -206,7 +206,7 @@ declare namespace googletag {
      * Sets that title for all ad container iframes created by pubads service, from this point onwards.
      * @param title 
      */
-    function setAdIframeTitle(title: string);
+    function setAdIframeTitle(title: string): void;
 
     /** 
      * Creates a new SizeMappingBuilder.
@@ -234,7 +234,7 @@ declare namespace googletag {
          * This method can be called multiple times during the page's lifetime to turn backfill on and off. Only slots that are also registered with the pubads service will be backfilled. Due to policy restrictions, this method is not designed to fill empty companion slots when an Ad Exchange video is served.
          * @param value true to automatically backfill unfilled slots, false to leave them unchanged.
          */
-        setRefreshUnfilledSlots(value: boolean);
+        setRefreshUnfilledSlots(value: boolean): void;
     }
 
     /**
@@ -246,7 +246,7 @@ declare namespace googletag {
          * @param slot The slot to be filled.
          * @param content The HTML content for the slot.
          */
-        setContent(slot: Slot, content: string);
+        setContent(slot: Slot, content: string): void;
     }
 
     /**
@@ -301,108 +301,108 @@ declare namespace googletag {
          * Removes the ads from the given slots and replaces them with blank content.
          * @param opt_slots 
          */
-        clear(opt_slots);
+        clear(opt_slots?: Slot[]): boolean;
 
         /**
          * Clears all page-level ad category exclusion labels.
          */
-        clearCategoryExclusions();
+        clearCategoryExclusions(): PubAdsService;
 
         /**
          * Clears custom targeting parameters for a specific key or for all keys.
          * @param opt_key 
          */
-        clearTargeting(opt_key);
+        clearTargeting(opt_key: string): PubAdsService;
 
         /**
          * Enables collapsing of slot divs so that they don't take up any space on the page when there is no ad content to display.
          * @param opt_collapseBeforeAdFetch 
          */
-        collapseEmptyDivs(opt_collapseBeforeAdFetch?: boolean);
+        collapseEmptyDivs(opt_collapseBeforeAdFetch?: boolean): boolean;
 
         /**
          * Disables requests for ads on page load, but allows ads to be requested with a googletag.pubads().refresh() call.
          */
-        disableInitialLoad();
+        disableInitialLoad(): void;
 
         /**
          * Constructs and displays an ad slot with the given ad unit path and size.
-         * @param adUnitPath 
-         * @param size 
-         * @param opt_div 
-         * @param opt_clickUrl 
+         * @param adUnitPath The ad unit path of slot to be rendered.
+         * @param size Width and height of the slot.
+         * @param opt_div Either the ID of the div containing the slot or the div element itself.
+         * @param opt_clickUrl The click URL to use on this slot.
          */
-        display(adUnitPath, size, opt_div, opt_clickUrl);
+        display(adUnitPath: string, size: GeneralSize, opt_div: string | Element, opt_clickUrl: string): void;
 
         /**
          * Enables lazy loading in GPT as defined by the config object. For more detailed examples, see the Lazy Loading example here.
          * Notes: Lazy fetching in SRA only works if all slots are outside the fetching margin.
          * @param opt_config 
          */
-        enableLazyLoad(opt_config?: LazyLoadConfig);
+        enableLazyLoad(opt_config?: LazyLoadConfig): void;
 
         /**
          * Enables single request mode for fetching multiple ads at the same time.
          */
-        enableSingleRequest();
+        enableSingleRequest(): boolean;
 
         /**
          * Signals to GPT that video ads will be present on the page.
          */
-        enableVideoAds();
+        enableVideoAds(): void;
 
         /**
          * Returns the value for the AdSense attribute associated with the given key.
          * @param key 
          */
-        get(key);
+        get(key: string): string | null;
 
         /**
          * Returns the attribute keys that have been set on this service.
          */
-        getAttributeKeys();
+        getAttributeKeys(): string[];
 
         /**
          * Returns a specific custom service-level targeting parameter that has been set.
          * @param key 
          */
-        getTargeting(key);
+        getTargeting(key: string): string[];
 
         /**
          * Returns the list of all custom service-level targeting keys that have been set.
          */
-        getTargetingKeys();
+        getTargetingKeys(): string[];
 
         /**
          * Returns whether or not initial requests for ads was successfully disabled by a previous disableInitialLoad call.
          */
-        isInitialLoadDisabled();
+        isInitialLoadDisabled(): boolean;
 
         /**
          * Fetches and displays new ads for specific or all slots on the page.
          * @param opt_slots 
          * @param opt_options 
          */
-        refresh(opt_slots?: string[], opt_options?: { changeCorrelator: boolean });
+        refresh(opt_slots?: Slot[], opt_options?: { changeCorrelator: boolean }): void;
 
         /**
          * Sets values for AdSense attributes that apply to all ad slots under the publisher ads service.
          * @param key 
          * @param value 
          */
-        set(key, value);
+        set(key: string, value: string): PubAdsService;
 
         /**
          * Sets a page-level ad category exclusion for the given label name.
-         * @param categoryExclusion 
+         * @param categoryExclusion The ad category exclusion label to add.
          */
-        setCategoryExclusion(categoryExclusion);
+        setCategoryExclusion(categoryExclusion: string): PubAdsService;
 
         /**
          * Enables and disables horizontal centering of ads.
-         * @param centerAds 
+         * @param centerAds true to center ads, false to left-align them.
          */
-        setCentering(centerAds);
+        setCentering(centerAds: boolean): void;
 
         /**
          * Sets options for ignoring Google Ad Manager cookies on the current page.
@@ -410,62 +410,62 @@ declare namespace googletag {
          * 0: Enables Google Ad Manager cookies on ad requests on the page. This option is set by default.  
          * 1: Ignores Google Ad Manager cookies on subsequent ad requests and prevents cookies from being created on the page. Note that cookies will not be ignored on certain pingbacks and that this option will disable features that rely on cookies, such as dynamic allocation.
          */
-        setCookieOptions(options: 0 | 1);
+        setCookieOptions(options: 0 | 1): PubAdsService;
 
         /**
          * Configures whether all ads on the page should be forced to be rendered using a SafeFrame container.
-         * @param forceSafeFrame 
+         * @param forceSafeFrame true to force all ads on the page to be rendered in SafeFrames and false to change the previous setting to false. Setting this to false when unspecified earlier, won't change anything.
          */
-        setForceSafeFrame(forceSafeFrame: boolean);
+        setForceSafeFrame(forceSafeFrame: boolean): PubAdsService;
 
         /**
          * Passes location information from websites so you can geo-target line items to specific locations.
-         * @param address 
+         * @param address Freeform address.
          */
-        setLocation(address);
+        setLocation(address: string): PubAdsService;
 
         /**
          * Allows configuration of all privacy settings from a single API using a config object.
-         * @param privacySettings 
+         * @param privacySettings Object containing privacy settings config.
          */
-        setPrivacySettings(privacySettings: PrivacySettingsConfig);
+        setPrivacySettings(privacySettings: PrivacySettingsConfig): PubAdsService;
 
         /**
          * Sets the value for the publisher-provided ID.
          * @param ppid 
          */
-        setPublisherProvidedId(ppid);
+        setPublisherProvidedId(ppid: string): PubAdsService;
 
         /**
          * Configures whether the page should request personalized or non-personalized ads.
-         * @param nonPersonalizedAds 
+         * @param nonPersonalizedAds 0 for personalized ads, 1 for non-personalized ads.
          */
-        setRequestNonPersonalizedAds(nonPersonalizedAds?: boolean);
+        setRequestNonPersonalizedAds(nonPersonalizedAds?: number): PubAdsService;
 
         /**
          * Sets the page-level preferences for SafeFrame configuration.
          * @param config 
          */
-        setSafeFrameConfig(config: SafeFrameConfig);
+        setSafeFrameConfig(config: SafeFrameConfig): PubAdsService;
 
         /**
          * Sets custom targeting parameters for a given key that apply to all pubads service ad slots.
          * @param key 
          * @param value 
          */
-        setTargeting(key: string, value: string | string[]);
+        setTargeting(key: string, value: string | string[]): PubAdsService;
 
         /**
          * Sets the video content information to be sent along with the ad requests for targeting and content exclusion purposes.
          * @param videoContentId 
          * @param videoCmsId 
          */
-        setVideoContent(videoContentId, videoCmsId);
+        setVideoContent(videoContentId: string, videoCmsId: string): void;
 
         /**
          * Changes the correlator that is sent with ad requests, effectively starting a new page view.
          */
-        updateCorrelator();
+        updateCorrelator(): PubAdsService;
     }
 
     /**
@@ -530,7 +530,7 @@ declare namespace googletag {
          * All values: impressionViewable slotOnload slotRenderEnded slotRequested slotResponseReceived slotVisibilityChanged
          * @param listener Function that takes a single event object argument.
          */
-        addEventListener(eventType: string, listener: Function);
+        addEventListener(eventType: string, listener: Function): void;
 
         /**
          * Get the list of slots associated with this service.
@@ -552,7 +552,7 @@ declare namespace googletag {
         /**
          * Builds a size map specification from the mappings added to this builder.
          */
-        build();
+        build(): SizeMappingArray;
     }
 
     /**
@@ -563,42 +563,42 @@ declare namespace googletag {
         /**
         * Adds a service to this slot.
         */
-        addService(service);
+        addService(service: Service): Slot;
 
         /**
         * Clears all slot-level ad category exclusion labels for this slot.
         */
-        clearCategoryExclusions();
+        clearCategoryExclusions(): Slot;
 
         /**
         * Clears specific or all custom slot-level targeting parameters for this slot.
         */
-        clearTargeting(opt_key);
+        clearTargeting(opt_key: string): Slot;
 
         /**
         * Sets an array of mappings from a minimum viewport size to slot size for this slot.
         */
-        defineSizeMapping(sizeMapping);
+        defineSizeMapping(sizeMapping: SizeMappingArray): Slot;
 
         /**
         * Returns the value for the AdSense attribute associated with the given key.
         */
-        get(key);
+        get(key: string): string | null;
 
         /**
         * Returns the full path of the ad unit, with the network code and ad unit path.
         */
-        getAdUnitPath();
+        getAdUnitPath(): string;
 
         /**
         * Returns the list of attribute keys set on this slot.
         */
-        getAttributeKeys();
+        getAttributeKeys(): string[];
 
         /**
         * Returns the ad category exclusion labels for this slot.
         */
-        getCategoryExclusions();
+        getCategoryExclusions(): string[];
 
         /**
         * Returns the ad response information.
@@ -608,59 +608,57 @@ declare namespace googletag {
         /**
         * Returns the id of the slot element provided when the slot was defined.
         */
-        getSlotElementId();
+        getSlotElementId(): string;
 
         /**
         * Returns a specific custom targeting parameter set on this slot.
         */
-        getTargeting(key);
+        getTargeting(key: string): string[];
 
         /**
         * Returns the list of all custom targeting keys set on this slot.
         */
-        getTargetingKeys();
+        getTargetingKeys(): string[];
 
         /**
         * Sets a value for an AdSense attribute on a particular ad slot.
         */
-        set(key, value);
+        set(key: string, value: string): Slot;
 
         /**
         * Sets a slot-level ad category exclusion label on this slot.
         */
-        setCategoryExclusion(categoryExclusion);
+        setCategoryExclusion(categoryExclusion: string): Slot;
 
         /**
         * Sets the click URL to which users will be redirected after clicking on the ad.
         */
-        setClickUrl(value);
+        setClickUrl(value: string): Slot;
 
         /**
         * Sets whether the slot div should be hidden when there is no ad in the slot.
         */
-        setCollapseEmptyDiv(collapse, opt_collapseBeforeAdFetch);
+        setCollapseEmptyDiv(collapse: boolean, opt_collapseBeforeAdFetch: boolean): Slot;
 
         /**
         * Configures whether ads in this slot should be forced to be rendered using a SafeFrame container.
         */
-        setForceSafeFrame(forceSafeFrame);
+        setForceSafeFrame(forceSafeFrame: boolean): Slot;
 
         /**
         * Sets the slot-level preferences for SafeFrame configuration.
         */
-        setSafeFrameConfig(config);
+        setSafeFrameConfig(config: SafeFrameConfig): Slot;
 
         /**
         * Sets a custom targeting parameter for this slot.
         */
-        setTargeting(key: string, value: string | string[]);
+        setTargeting(key: string, value: string | string[]): Slot;
 
         /**
         * Sets custom targeting parameters for this slot, from a key:value map in a JSON object.
         */
-        updateTargetingFromMap(map);
+        updateTargetingFromMap(map: any): Slot;
     }
 
 }
-
-export { googletag };

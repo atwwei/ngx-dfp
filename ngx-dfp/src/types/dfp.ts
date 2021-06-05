@@ -1,5 +1,3 @@
-import { googletag } from "./googletag";
-
 type ScriptOptions = {
     id?: string;
     async?: boolean;
@@ -9,7 +7,7 @@ type ScriptOptions = {
 }
 
 type RefreshOptions = {
-    slots?: string[];
+    slots?: googletag.Slot[];
     opt_options?: {
         changeCorrelator: boolean
     }
@@ -25,20 +23,20 @@ type DfpAdMapping = [googletag.SingleSizeArray, googletag.GeneralSize];
  * All GPT event types for googletag.pubads().addEventListener(?,?)
  */
 enum EventTypes {
-    ImpressionViewableEvent = 'impressionViewable',
-    SlotOnloadEvent = 'slotOnload',
-    SlotRenderEndedEvent = 'slotRenderEnded',
-    SlotRequestedEvent = 'slotRequested',
-    SlotResponseReceived = 'slotResponseReceived',
-    SlotVisibilityChangedEvent = 'slotVisibilityChanged'
+    'ImpressionViewableEvent' = 'impressionViewable',
+    'SlotOnloadEvent' = 'slotOnload',
+    'SlotRenderEndedEvent' = 'slotRenderEnded',
+    'SlotRequestedEvent' = 'slotRequested',
+    'SlotResponseReceived' = 'slotResponseReceived',
+    'SlotVisibilityChangedEvent' = 'slotVisibilityChanged'
 }
 
 /**
  * @see googletag.events.Event
  */
 class Event {
-    serviceName: string;
-    slot: googletag.Slot;
+    serviceName: string | undefined;
+    slot: googletag.Slot | undefined;
 }
 
 /**
@@ -58,9 +56,9 @@ class SlotRenderEndedEvent extends Event {
     advertiserId?: number;
     campaignId?: number;
     creativeId?: number;
-    isEmpty: boolean;
+    isEmpty: boolean = true;
     lineItemId?: number;
-    size: Array<number> | string
+    size: Array<number> | string = [];
     sourceAgnosticCreativeId?: number;
     sourceAgnosticLineItemId?: number;
 }
@@ -79,7 +77,7 @@ class SlotResponseReceived extends Event { }
  * @see googletag.events.SlotVisibilityChangedEvent
  */
 class SlotVisibilityChangedEvent extends Event {
-    inViewPercentage: number;
+    inViewPercentage: number = 0;
 }
 
 export {
