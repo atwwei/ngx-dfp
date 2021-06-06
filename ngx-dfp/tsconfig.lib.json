@@ -2,14 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "typeRoots":["../node_modules/@types", "./@types"],
-    "types": ["googletag"],
+    "typeRoots":["./types"],
   },
   "files": [
-    "src/index.ts",
-    "googletag/index.ts",
+    "src/index.ts"
   ],
   "include": [
-    "src/*.d.ts"
+    "src/*.d.ts",
+    "types/**/*.d.ts"
   ]
 }
