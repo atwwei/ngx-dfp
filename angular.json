@@ -93,7 +93,7 @@
       "projectType": "library",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "ngx-dfp/tsconfig.lib.json",
             "project": "ngx-dfp/ng-package.json"
