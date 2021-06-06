@@ -1,3 +1,5 @@
+import '../googletag';
+
 type ScriptOptions = {
     id?: string;
     async?: boolean;

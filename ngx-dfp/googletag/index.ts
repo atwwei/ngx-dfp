@@ -471,7 +471,7 @@ declare namespace googletag {
     /**
      * Public interface for ResponseInformation.
      */
-    export type ResponseInformation = {
+    type ResponseInformation = {
         /**
          * The ID of the advertiser.
          */
@@ -542,7 +542,7 @@ declare namespace googletag {
      * Builder for size mapping specification objects. This builder is provided to help easily construct size specifications.  
      * See the article on responsive design for more details.
      */
-    export interface SizeMappingBuilder {
+    interface SizeMappingBuilder {
         /**
          * Adds a mapping from a single-size array representing the viewport to either a single-size array or a multi-size array representing the slot.
          * @param viewportSize 

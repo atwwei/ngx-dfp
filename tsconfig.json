@@ -21,8 +21,8 @@
       "dom"
     ],
     "paths": {
-      "ngx-dfp":["ngx-dfp/src"]
-    }
+      "ngx-dfp":["ngx-dfp/src"],
+    },
   },
   "angularCompilerOptions": {
     "enableIvy": false,
