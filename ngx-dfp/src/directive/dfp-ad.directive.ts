@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
 
 import { DfpAdMapping, DfpAdTargeting } from '../types';
 import { DfpService } from '../service/dfp.service';
@@ -14,12 +14,12 @@ export class DfpAdDirective {
 
   @Input('dfpAd') adUnitPath: string = '';
   @Input('dfpAdId') id: string = '';
-  @Input('dfpAdSize') size: googletag.GeneralSize = [];
-  @Input('dfpAdSizeMapping') sizeMapping: googletag.SizeMappingArray | undefined;
+  @Input('dfpAdSize') size: googletag.GeneralSize | undefined;
+  @Input('dfpAdSizeMapping') sizeMapping: DfpAdMapping = [];
   @Input('dfpAdTargeting') targeting: DfpAdTargeting = {};
-  @Input('dfpAdClickUrl') clickUrl: string = '';
-  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv: boolean | [boolean, boolean] | undefined;
-  @Input('dfpAdContent') content: string | undefined;
+  @Input('dfpAdClickUrl') clickUrl = '';
+  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv = false;
+  @Input('dfpAdContent') content = '';
 
   constructor(
     private _viewContainer: ViewContainerRef,

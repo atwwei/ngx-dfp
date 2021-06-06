@@ -9,8 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:lib": "ng build ngx-dfp --prod",
-    "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/stats.json"
+    "build:lib": "ng build ngx-dfp",
+    "bundle-report": "ng build --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
   "dependencies": {
     "@angular/common": "~12.0.3",
@@ -25,10 +25,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.0.3",
+    "@angular-devkit/build-ng-packagr": "^0.1002.0",
     "@angular/cli": "~12.0.3",
     "@angular/compiler-cli": "~12.0.3",
-    "ng-packagr": "^12.0.3",
     "@types/node": "^12.11.1",
+    "ng-packagr": "^12.0.3",
     "typescript": "~4.2.3"
   }
 }

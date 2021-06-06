@@ -17,7 +17,7 @@ type DfpAdTargeting = {
     [key: string]: string | string[]
 }
 
-type DfpAdMapping = [googletag.SingleSizeArray, googletag.GeneralSize];
+type DfpAdMapping = Array<[googletag.SingleSizeArray, googletag.GeneralSize]>;
 
 /**
  * All GPT event types for googletag.pubads().addEventListener(?,?)
