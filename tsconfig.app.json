@@ -3,7 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [],
+    "typeRoots": ["ngx-dfp/types"],
     "paths": {
       "ngx-dfp":["ngx-dfp/src"]
     }
