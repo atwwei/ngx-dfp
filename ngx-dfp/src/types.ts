@@ -35,8 +35,8 @@ enum EventTypes {
  * @see googletag.events.Event
  */
 class Event {
-    serviceName: string | undefined;
-    slot: googletag.Slot | undefined;
+    serviceName!: string;
+    slot!: googletag.Slot;
 }
 
 /**
@@ -56,9 +56,9 @@ class SlotRenderEndedEvent extends Event {
     advertiserId?: number;
     campaignId?: number;
     creativeId?: number;
-    isEmpty: boolean = true;
+    isEmpty!: boolean;
     lineItemId?: number;
-    size: Array<number> | string = [];
+    size!: Array<number> | string;
     sourceAgnosticCreativeId?: number;
     sourceAgnosticLineItemId?: number;
 }

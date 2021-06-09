@@ -10,15 +10,15 @@ import { DfpService } from '../service/dfp.service';
   selector: '[dfpAd]'
 })
 export class DfpAdDirective {
-  _element: Element | undefined;
+  _element!: Element;
 
   @Input('dfpAd') adUnitPath: string = '';
   @Input('dfpAdId') id: string = '';
-  @Input('dfpAdSize') size: googletag.GeneralSize | undefined;
+  @Input('dfpAdSize') size!: googletag.GeneralSize;
   @Input('dfpAdSizeMapping') sizeMapping: DfpAdMapping = [];
-  @Input('dfpAdTargeting') targeting: DfpAdTargeting = {};
+  @Input('dfpAdTargeting') targeting!: DfpAdTargeting;
+  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv!: boolean | [boolean, boolean];
   @Input('dfpAdClickUrl') clickUrl = '';
-  @Input('dfpAdCollapseEmptyDiv') collapseEmptyDiv = false;
   @Input('dfpAdContent') content = '';
 
   constructor(

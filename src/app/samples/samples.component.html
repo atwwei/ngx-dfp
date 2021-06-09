@@ -1,0 +1,183 @@
+<hr>
+
+<h2>{{current.name}}</h2>
+
+<ng-container [ngSwitch]="current.id">
+    <ng-container *ngSwitchCase="'ad-sizes'">
+        <h1>Fixed size ad slot</h1>
+        <p>This ad slot will display an ad sized 300x250.</p>
+        <div class="ad-container">
+            <div *dfpAd="'/6355419/Travel/Europe/France/Paris';size:[300,250]" id="fixed-size-ad" class="ad-slot"></div>
+        </div>
+
+        <h1>Multi-size ad slot</h1>
+        <p>This ad slot will display an ad with any of the following dimensions: 300x250, 728x90, 750x200.</p>
+        <div class="ad-container">
+            <div *dfpAd="'/6355419/Travel/Europe';size:[[300, 250], [728, 90], [750, 200]]" id="multi-size-ad" class="ad-slot"></div>
+        </div>
+
+        <h1>Fluid ad slot</h1>
+        <p>This ad slot will resize its height to fit the creative content being displayed. For this example, the slot is limited to 50% of the width of its parent container.</p>
+        <div class="ad-container">
+            <div *dfpAd="'/6355419/Travel';size:['fluid']" id="native-ad" class="ad-slot native-slot"></div>
+        </div>
+
+        <h1>Responsive ad slot</h1>
+        <p>This ad slot will display different sized ads depending on the size of the browser viewport at page load time:</p>
+        <ul>
+            <li>When viewport &gt;= 1024x768, ads sized 750x200 or 728x90 may be displayed.</li>
+            <li>When 1024x768 &gt; viewport &gt;= 640x480, ads sized 300x250 may be displayed.</li>
+            <li>When viewport &lt; 640x480, no ads may be displayed.</li>
+        </ul>
+        <div class="ad-container">
+            <div *dfpAd="'/6355419/Travel/Europe';size:[[300, 250], [728, 90], [750, 200]];sizeMapping:[[[1024, 768], [[750, 200], [728, 90]]],[[640, 480], [300, 250]],[[0, 0], []]]"
+                id="responsive-ad" class="ad-slot"></div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'configure-cookies'">
+        <div [style.color]="cookiesEnabled===0?'red':''">0: Enables Google Ad Manager cookies on ad requests on the page. This option is set by default.</div>
+        <div [style.color]="cookiesEnabled===1?'red':''">1: Ignores Google Ad Manager cookies on subsequent ad requests and prevents cookies from being created on the page. Note that cookies will not
+            be ignored on certain pingbacks and that this option will disable features that rely on cookies, such as dynamic allocation.</div>
+        <div *dfpAd="'/6355419/Travel/Europe/France';size:[728, 90]" id="banner-ad" style="width: 728px; height: 90px;"></div>
+        <button type="button" (click)="toggleCookieOptions()"> ToggleCookieOptions </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'configure-personalized-ads'">
+        <div>
+            <font [color]="personalizedAdsDisabled===0?'red':''">0 for personalized ads</font>, <font [color]="personalizedAdsDisabled===1?'red':''">1 for non-personalized ads.</font>
+        </div>
+        <div *dfpAd="'/6355419/Travel/Europe/France';size:[728, 90]" id="banner-ad" style="width: 728px; height: 90px;"></div>
+        <button type="button" (click)="toggleRequestNonPersonalizedAds()"> ToggleRequestNonPersonalizedAds </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'configure-privacy'">
+        <div>
+            <input type="checkbox" [(ngModel)]="privacyConfig.childDirectedTreatment" id="childDirectedTreatment" (change)="configurePrivacy()">
+            <label for="childDirectedTreatment">childDirectedTreatment configuration indicates whether the page should be treated as child-directed. Set to null to clear the configuration.</label>
+        </div>
+        <div>
+            <input type="checkbox" [(ngModel)]="privacyConfig.limitedAds" id="limitedAds" (change)="configurePrivacy()">
+            <label for="limitedAds">limitedAds configuration enables serving to run in limited ads mode to aid in publisher regulatory compliance needs. When enabled, the GPT library itself may
+                optionally be requested from a cookie-less, limited ads URL.</label>
+        </div>
+        <div>
+            <input type="checkbox" [(ngModel)]="privacyConfig.restrictDataProcessing" id="restrictDataProcessing" (change)="configurePrivacy()">
+            <label for="restrictDataProcessing">restrictDataProcessing configuration enables serving to run in restricted processing mode to aid in publisher regulatory compliance needs.</label>
+        </div>
+        <div>
+            <input type="checkbox" [(ngModel)]="privacyConfig.underAgeOfConsent" id="underAgeOfConsent" (change)="configurePrivacy()">
+            <label for="underAgeOfConsent">underAgeOfConsent configuration indicates whether to mark ad requests as coming from users under the age of consent. Set to null to clear the
+                configuration.</label>
+        </div>
+        <div *dfpAd="'/6355419/Travel/Europe/France';size:[728, 90]" id="banner-ad" style="width: 728px; height: 90px;"></div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'display-out-of-page-ad'">
+        <p>Use defineOutOfPageSlot instead of defineSlot when working with out-of-page ads.</p>
+        <div *dfpAd="'/6355419/Travel';targeting:{'test':'outofpage'}" id="out-of-page-ad"></div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'ad-event-listeners'">
+        <span>Ad slot 1</span>
+        <div *dfpAd="'/6355419/Travel/Europe';size:[728, 90]" id="ad-slot-1" style="width: 728px; height: 90px;"></div>
+
+        <span>Ad slot 2</span>
+        <div *dfpAd="'/6355419/Travel/Europe';size:[750, 200]" id="ad-slot-2" style="width: 750px; height: 200px;"></div>
+
+        <table width="100%">
+            <tr>
+                <th>Slot</th>
+                <th>Event</th>
+                <th>Details</th>
+            </tr>
+            <tr *ngFor="let status of eventsStatus;let i=index" valign="top">
+                <td>{{status[0]}}</td>
+                <td>{{status[1]}}</td>
+                <td *ngIf="status[2]">
+                    <ng-container *ngFor="let val of status[2]">{{val}}<br></ng-container>
+                </td>
+            </tr>
+        </table>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'collapse-empty-ad-slots'">
+        <div class="ad-container">
+            <p>Ad slot #1<br>This slot will use the page-level settings configured above.</p>
+            <div *dfpAd="'/6355419/Travel';size:[300, 250];targeting:{'test':'responsive'}" id="ad-slot-1" class="ad-slot"></div>
+        </div>
+
+        <div class="ad-container">
+            <p>Ad slot #2<br>This slot will be expanded by default, but collapse if it cannot be filled.</p>
+            <div *dfpAd="'/6355419/Travel';size:[250, 200];targeting:{'test':'responsive'};collapseEmptyDiv:true" id="ad-slot-2" class="ad-slot" style="width: 250px; height: 200px;"></div>
+        </div>
+
+        <div class="ad-container">
+            <p>Ad slot #3<br>This slot will be expanded by default and never collapse.</p>
+            <div *dfpAd="'/6355419/Travel';size:[200, 150];targeting:{'test':'responsive'};collapseEmptyDiv:false" id="ad-slot-3" class="ad-slot" style="width: 200px; height: 150px;"></div>
+        </div>
+
+        <div class="ad-container">
+            <p>Ad slot #4<br>This slot will be collapsed by default and only expand if it can be filled.</p>
+            <div *dfpAd="'/6355419/Travel';size:[150, 100];targeting:{'test':'responsive'};collapseEmptyDiv:[true,true]" id="ad-slot-4" class="ad-slot"></div>
+        </div>
+    </ng-container>
+
+    <div class="lazy-loading" *ngSwitchCase="'lazy-loading'">
+        <div class="main-content">
+            <div *dfpAd="'/6355419/Travel';size:[728, 90];targeting:{'test':'lazyload'}" id="div-1" class="ad-slot" style="height: 90px; width: 728px;"></div>
+
+            <!-- 3 viewport tall div to place next slot 3 viewports away. -->
+            <div style="height:300vh"></div>
+
+            <div *dfpAd="'/6355419/Travel';size:[728, 90];targeting:{'test':'lazyload'}" id="div-2" class="ad-slot" style="height: 90px; width: 728px;"></div>
+
+            <!-- 9 viewport tall div to place next slot 12 viewports away. -->
+            <div style="height:900vh"></div>
+
+            <div *dfpAd="'/6355419/Travel';size:[728, 90];targeting:{'test':'lazyload'}" id="div-3" class="ad-slot" style="height: 90px; width: 728px;"></div>
+        </div>
+        <div class="status-panel">
+            <table>
+                <tr>
+                    <th>Ad Slot</th>
+                    <th>Fetched?</th>
+                    <th>Rendered?</th>
+                </tr>
+                <tr>
+                    <td class="slot-name">Ad Slot 1</td>
+                    <td id="div-1-fetched">No</td>
+                    <td id="div-1-rendered">No</td>
+                </tr>
+                <tr>
+                    <td class="slot-name">Ad Slot 2</td>
+                    <td id="div-2-fetched">No</td>
+                    <td id="div-2-rendered">No</td>
+                </tr>
+                <tr>
+                    <td class="slot-name">Ad Slot 3</td>
+                    <td id="div-3-fetched">No</td>
+                    <td id="div-3-rendered">No</td>
+                </tr>
+            </table>
+            <div> Scroll the container below to lazily load the ad slots. </div>
+        </div>
+    </div>
+
+    <ng-container *ngSwitchCase="'refresh'">
+        <div *dfpAd="'/6355419/Travel';size:[728, 90];targeting:{'test':'refresh'}" id='leaderboard1' style="width:728px;height:90px;"></div>
+        <br>
+        <div *dfpAd="'/6355419/Travel';size:[728, 90];targeting:{'test':'refresh'}" id='leaderboard2' style="width:728px;height:90px;"></div>
+        <br>
+        <div>
+            <!-- Refresh the first slot -->
+            <button (click)="refresh('leaderboard1')">Refresh Top Ad</button>
+            <!-- Refresh the second slot -->
+            <button (click)="refresh('leaderboard2')">Refresh Bottom Ad</button>
+            <!-- Refresh both slots -->
+            <button (click)="refresh()">Refresh All Ads</button>
+            <!-- Clear slots -->
+            <button (click)="clear()">Clear All Ads</button>
+        </div>
+    </ng-container>
+</ng-container>

@@ -410,7 +410,7 @@ declare namespace googletag {
          * 0: Enables Google Ad Manager cookies on ad requests on the page. This option is set by default.  
          * 1: Ignores Google Ad Manager cookies on subsequent ad requests and prevents cookies from being created on the page. Note that cookies will not be ignored on certain pingbacks and that this option will disable features that rely on cookies, such as dynamic allocation.
          */
-        setCookieOptions(options: 0 | 1): PubAdsService;
+        setCookieOptions(options: number): PubAdsService;
 
         /**
          * Configures whether all ads on the page should be forced to be rendered using a SafeFrame container.

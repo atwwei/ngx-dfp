@@ -1,2 +1,41 @@
-<div *dfpAd="adUnitPath" id='out-of-page-ad'></div>
+<h1>
+    <a href="https://developers.google.com/publisher-tag/samples">Google Publisher Tag samples</a>
+</h1>
+<p>
+    This section contains a collection of examples and related resources for the Google Publisher Tag (GPT) library.
+</p>
+<p>
+    Much of the content in this section can also be found in our&nbsp;<a href="https://github.com/googleads/google-publisher-tag-samples">GitHub repository</a>. Sample code and associated
+    documentation is released as open source under the&nbsp;<a href="https://github.com/googleads/google-publisher-tag-samples/blob/main/LICENSE">Apache License 2.0</a>.
+</p>
+
+<table>
+    <tr>
+        <td>
+            <h2> Basic samples </h2>
+        </td>
+    </tr>
+    <tr *ngFor="let item of samples.base">
+        <td>
+            <a [routerLink]="'/samples/'+item[0]">{{item[1]}}</a>
+        </td>
+        <td>
+            {{item[2]}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2> Advanced samples </h2>
+        </td>
+    </tr>
+    <tr *ngFor="let item of samples.advanced">
+        <td>
+            <a [routerLink]="'/samples/'+item[0]">{{item[1]}}</a>
+        </td>
+        <td>
+            {{item[2]}}
+        </td>
+    </tr>
+</table>
+
 <router-outlet></router-outlet>

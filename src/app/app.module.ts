@@ -5,13 +5,11 @@ import { RouterModule } from '@angular/router';
 import { DfpModule } from 'ngx-dfp';
 
 import { AppComponent } from './app.component';
-import { DemoComponent } from './demo.component';
 import { BaseComponent } from './base.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoComponent,
     BaseComponent
   ],
   imports: [
@@ -22,12 +20,8 @@ import { BaseComponent } from './base.component';
         path: '',
         children: [
           {
-            path: '',
-            loadChildren: ()=>import('./home/home.module').then(m => m.HomeModule)
-          },
-          {
-            path: ':page',
-            loadChildren: ()=>import('./page/page.module').then(m => m.PageModule)
+            path: 'samples/:current',
+            loadChildren: ()=>import('./samples/samples.module').then(m => m.SamplesModule)
           },
         ]
       }

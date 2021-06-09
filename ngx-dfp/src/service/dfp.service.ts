@@ -37,8 +37,16 @@ export class DfpService {
    */
   clear(slots?: googletag.Slot[]) {
     googletag.cmd.push(() => {
-      googletag.destroySlots(slots);
       googletag.pubads().clear(slots);
+    });
+  }
+
+  /**
+   * {@link googletag.destroySlots}
+   */
+  destroySlots(slots?: googletag.Slot[]) {
+    googletag.cmd.push(() => {
+      googletag.destroySlots(slots);
     });
   }
 
@@ -95,7 +103,7 @@ export class DfpService {
       filter(slots => slots.length > 0)
     ).subscribe((slots) => {
       if (googletag.pubadsReady) {
-        this.clear();
+        this.destroySlots();
       }
       this.define(slots);
       this.refresh();
@@ -184,23 +192,11 @@ export class DfpService {
   private getSlotDefineScript(ad: DfpAdDirective) {
     const scripts = [];
 
-    const tab = '  ';
-    const separator = "\n" + tab + tab;
-
     if (ad.size) {
       scripts.push('googletag.defineSlot("' + ad.adUnitPath + '",' + JSON.stringify(ad.size) + ',"' + ad.id + '")');
     } else {
       scripts.push('googletag.defineOutOfPageSlot("' + ad.adUnitPath + '","' + ad.id + '")');
     }
-
-    if (ad.clickUrl) {
-      scripts.push(separator + '.setClickUrl("' + ad.clickUrl + '")');
-    }
-    if (ad.collapseEmptyDiv) {
-      scripts.push(separator + '.setCollapseEmptyDiv(googletag.pubads(' + JSON.stringify(ad.collapseEmptyDiv) + '))');
-    }
-
-    scripts.push(separator + '.addService(googletag.pubads())');
 
     if (ad.sizeMapping) {
       const mappingScripts = [
@@ -210,14 +206,26 @@ export class DfpService {
         return '.addSize(' + JSON.stringify(value[0]) + ', ' + JSON.stringify(value[1]) + ')';
       }).join(''));
       mappingScripts.push('.build())');
-      scripts.push(separator + mappingScripts.join(''));
+      scripts.push(mappingScripts.join(''));
     }
 
-    scripts.push(separator + Object.keys(ad.targeting).map((key) => {
-      return '.setTargeting("' + key + '", ' + JSON.stringify(ad.targeting[key]) + ')';
-    }).join(''));
+    if (ad.targeting) {
+      scripts.push(Object.keys(ad.targeting).map((key) => {
+        return '.setTargeting("' + key + '", ' + JSON.stringify(ad.targeting[key]) + ')';
+      }).join(''));
+    }
 
-    return scripts.join('') + ';';
+    if (ad.collapseEmptyDiv !== undefined) {
+      scripts.push('.setCollapseEmptyDiv(' + ad.collapseEmptyDiv + ')');
+    }
+
+    if (ad.clickUrl) {
+      scripts.push('.setClickUrl("' + ad.clickUrl + '")');
+    }
+
+    scripts.push('.addService(googletag.pubads())');
+
+    return scripts.join("\n    ") + ';';
   }
 
   /**

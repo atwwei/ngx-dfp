@@ -19,9 +19,9 @@
     "lib": [
       "es2018",
       "dom"
-    ],
-    "paths": {
-      "ngx-dfp":["ngx-dfp/src"]
+    ]
+    ,"paths": {
+      "ngx-dfp":["lib"]
     }
   },
   "angularCompilerOptions": {
