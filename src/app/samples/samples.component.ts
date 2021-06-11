@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DfpService, EventTypes, ImpressionViewableEvent, SlotOnloadEvent, SlotRenderEndedEvent, SlotRequestedEvent, SlotResponseReceived, SlotVisibilityChangedEvent } from 'ngx-dfp';
+import { cmd } from 'ngx-dfp';
 import { takeWhile } from 'rxjs/operators';
 import { SAMPLES } from '../const';
 
@@ -68,82 +69,37 @@ export class SamplesComponent implements OnDestroy {
   resetDefaultOptions() {
     switch (this.current.id) {
       case 'configure-cookies':
-        this.dfp.pushCmd(() => {
+        cmd(() => {
           googletag.pubads().setCookieOptions(this.cookiesEnabled);
         });
         break;
       case 'configure-personalized-ads':
-        this.dfp.pushCmd(() => {
+        cmd(() => {
           googletag.pubads().setRequestNonPersonalizedAds(this.personalizedAdsDisabled);
         });
         break;
       case 'ad-event-listeners':
-        this.addEventListeners();
+        this.setEventListeners();
         break;
       case 'collapse-empty-ad-slots':
-        this.dfp.pushCmd(() => {
+        cmd(() => {
           googletag.pubads().collapseEmptyDivs();
           googletag.pubads().enableSingleRequest();
         });
         break;
       case 'lazy-loading':
-        this.dfp.pushCmd(() => {
-          // A) Enable with defaults.
-          googletag.pubads().enableLazyLoad();
-          // B) Enable without lazy fetching. Additional calls override previous
-          // ones.
-          googletag.pubads().enableLazyLoad({ fetchMarginPercent: -1 });
-          // C) Enable lazy loading with...
-          googletag.pubads().enableLazyLoad({
-            // Fetch slots within 5 viewports.
-            fetchMarginPercent: 500,
-            // Render slots within 2 viewports.
-            renderMarginPercent: 200,
-            // Double the above values on mobile, where viewports are smaller
-            // and users tend to scroll faster.
-            mobileScaling: 2.0
-          });
-        });
-        this.dfp.events.pipe(
-          takeWhile(() => 'lazy-loading' === this.current.id)
-        ).subscribe(event => {
-          const slotId = event.slot.getSlotElementId();
-          let el: HTMLElement | null = null;
-          if (event instanceof SlotRequestedEvent) {
-            el = this.document.getElementById(slotId + '-' + 'fetched');
-          } else if (event instanceof SlotOnloadEvent) {
-            el = this.document.getElementById(slotId + '-' + 'rendered');
-          }
-          if (el) { el.className = 'activated'; el.innerText = 'Yes'; }
-        });
+        this.setLazyLoading();
         break;
       case 'display-out-of-page-ad':
       case 'refresh':
-        this.dfp.pushCmd(() => {
+        cmd(() => {
           googletag.pubads().enableSingleRequest();
         });
         break;
     }
   }
 
-  toggleCookieOptions() {
-    this.cookiesEnabled = this.cookiesEnabled === 1 ? 0 : 1;
-    googletag.pubads().setCookieOptions(this.cookiesEnabled);
-    googletag.pubads().refresh();
-  }
-
-  toggleRequestNonPersonalizedAds() {
-    this.personalizedAdsDisabled = this.personalizedAdsDisabled === 1 ? 0 : 1;
-    googletag.pubads().setRequestNonPersonalizedAds(this.personalizedAdsDisabled);
-    googletag.pubads().refresh();
-  }
-
-  configurePrivacy() {
-    googletag.pubads().setPrivacySettings(this.privacyConfig);
-    googletag.pubads().refresh();
-  }
-
-  addEventListeners() {
+  setEventListeners() {
     this.eventsStatus = [];
     this.dfp.events.pipe(
       takeWhile(() => 'ad-event-listeners' === this.current.id)
@@ -183,16 +139,64 @@ export class SamplesComponent implements OnDestroy {
     });
   }
 
-  refresh(slotId?: string) {
+  setLazyLoading() {
+    cmd(() => {
+      // A) Enable with defaults.
+      googletag.pubads().enableLazyLoad();
+      // B) Enable without lazy fetching. Additional calls override previous
+      // ones.
+      googletag.pubads().enableLazyLoad({ fetchMarginPercent: -1 });
+      // C) Enable lazy loading with...
+      googletag.pubads().enableLazyLoad({
+        // Fetch slots within 5 viewports.
+        fetchMarginPercent: 500,
+        // Render slots within 2 viewports.
+        renderMarginPercent: 200,
+        // Double the above values on mobile, where viewports are smaller
+        // and users tend to scroll faster.
+        mobileScaling: 2.0
+      });
+    });
+    this.dfp.events.pipe(
+      takeWhile(() => 'lazy-loading' === this.current.id)
+    ).subscribe(event => {
+      const slotId = event.slot.getSlotElementId();
+      let el: HTMLElement | null = null;
+      if (event instanceof SlotRequestedEvent) {
+        el = this.document.getElementById(slotId + '-' + 'fetched');
+      } else if (event instanceof SlotOnloadEvent) {
+        el = this.document.getElementById(slotId + '-' + 'rendered');
+      }
+      if (el) { el.className = 'activated'; el.innerText = 'Yes'; }
+    });
+  }
+
+  toggleCookieOptions() {
+    this.cookiesEnabled = this.cookiesEnabled === 1 ? 0 : 1;
+    googletag.pubads().setCookieOptions(this.cookiesEnabled);
+    googletag.pubads().refresh();
+  }
+
+  toggleRequestNonPersonalizedAds() {
+    this.personalizedAdsDisabled = this.personalizedAdsDisabled === 1 ? 0 : 1;
+    googletag.pubads().setRequestNonPersonalizedAds(this.personalizedAdsDisabled);
+    googletag.pubads().refresh();
+  }
+
+  doPrivacySetting() {
+    googletag.pubads().setPrivacySettings(this.privacyConfig);
+    googletag.pubads().refresh();
+  }
+
+  doRefresh(slotId?: string) {
     if (slotId) {
-      const slot = googletag.pubads().getSlots().find(slot => slot.getSlotElementId() === slotId) as googletag.Slot;
-      this.dfp.refresh([slot]);
+      this.dfp.refresh([slotId]);
     } else {
       this.dfp.refresh();
     }
   }
 
-  clear() {
+  doClear() {
     this.dfp.clear();
   }
 }

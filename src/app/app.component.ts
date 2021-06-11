@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DfpService } from 'ngx-dfp';
 
 import { SAMPLES } from './const';
 
@@ -8,4 +9,9 @@ import { SAMPLES } from './const';
 })
 export class AppComponent {
   samples = SAMPLES;
+  constructor(dfp: DfpService) {
+    dfp.appendCmdScript({
+      innerHTML: ' googletag.pubads().enableSingleRequest();'
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
+import { Directive, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { DfpAdMapping, DfpAdTargeting } from '../types';
 import { DfpService } from '../service/dfp.service';

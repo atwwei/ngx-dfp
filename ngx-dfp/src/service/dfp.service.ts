@@ -19,6 +19,10 @@ const DFP_DEFINE_ID = 'ngx-dfp';
 export class DfpService {
 
   private _events = new Subject<Event>();
+  get events(): Observable<Event> {
+    return this._events.asObservable();
+  }
+
   private debounceRefresh = new Subject<RefreshOptions>();
   private refreshQueue = new Subject<DfpAdDirective>();
   private onSameNavigation: Subscription | undefined;
@@ -32,46 +36,39 @@ export class DfpService {
     this.addEventListeners();
   }
 
-  /**
-   * Removes the ads from the given slots and replaces them with blank content.
-   */
-  clear(slots?: googletag.Slot[]) {
+  clear(elementIds?: string[]) {
     googletag.cmd.push(() => {
-      googletag.pubads().clear(slots);
+      googletag.pubads().clear(this.getSlots(elementIds));
     });
   }
 
-  /**
-   * {@link googletag.destroySlots}
-   */
-  destroySlots(slots?: googletag.Slot[]) {
+  cmd(callback: () => void) {
+    googletag.cmd.push(callback);
+  }
+
+  destroySlots(elementIds?: string[]) {
     googletag.cmd.push(() => {
-      googletag.destroySlots(slots);
+      googletag.destroySlots(this.getSlots(elementIds));
     });
   }
 
-  /**
-   * googletag.cmd.push
-   */
-  pushCmd(callback: Function) {
-    googletag.cmd.push(() => {
-      callback();
-    });
+  getSlots(elementIds?: string[]) {
+    if (!googletag.apiReady) {
+      return [];
+    }
+    const slots = googletag.pubads().getSlots();
+    if (elementIds) {
+      return slots.filter(slot => elementIds.indexOf(slot.getSlotElementId()) !== -1);
+    }
+    return slots;
   }
 
-  /**
-   * Push DfpAdDirective to the pending queue.
-   */
   push(slot: DfpAdDirective) {
     this.refreshQueue.next(slot);
   }
 
-  /**
-   * Fetches and displays new ads for specific or all slots on the page.
-   * Minimum interval time takes 1 second.
-   */
-  refresh(slots?: googletag.Slot[], opt_options?: { changeCorrelator: boolean }) {
-    this.debounceRefresh.next({ slots: slots, opt_options: opt_options });
+  refresh(elementIds?: string[], opt_options?: { changeCorrelator: boolean }) {
+    this.debounceRefresh.next({ slots: this.getSlots(elementIds), opt_options: opt_options });
   }
 
   /**
@@ -90,6 +87,52 @@ export class DfpService {
     }
   }
 
+  /**
+   * Append script preload tag: \<link ref="preload" href="src" as="script"\>
+   * @param src
+   * @returns
+   */
+  preloadScript(src: string) {
+    const preload: HTMLLinkElement = this.document.createElement('link');
+    Object.assign(preload, { rel: 'preload', href: src, as: 'script' });
+    this.document.head.appendChild(preload);
+    return preload;
+  }
+
+  /**
+   * Append Script tag to parentNode
+   * @param options
+   * @param parentNode The default setting is document.head
+   * @returns
+   */
+  appendScript(options: ScriptOptions, parentNode?: Element) {
+    parentNode = parentNode || this.document.head;
+    const oldScript = options.id ? parentNode.querySelector('#' + options.id) : null;
+    const script: HTMLScriptElement = this.document.createElement('script');
+    Object.assign(script, options, {
+      type: 'text/javascript'
+    });
+    if (oldScript) {
+      parentNode.replaceChild(script, oldScript);
+    } else {
+      parentNode.appendChild(script);
+    }
+    return script;
+  }
+
+  /**
+   * Append Script tag to parentNode with `googletag.cmd.push(function(){???})`
+   * @param options
+   * @param parentNode
+   * @returns
+   */
+  appendCmdScript(options: ScriptOptions, parentNode?: Element) {
+    const opts = Object.assign({}, options, {
+      innerHTML: 'googletag.cmd.push(function(){' + options.innerHTML + '});'
+    });
+    return this.appendScript(opts, parentNode);
+  }
+
   private initializeGPT() {
     this.preloadScript(GPT_SOURCE);
     this.appendScript({ async: true, src: GPT_SOURCE });
@@ -102,9 +145,7 @@ export class DfpService {
       bufferTime(200),
       filter(slots => slots.length > 0)
     ).subscribe((slots) => {
-      if (googletag.pubadsReady) {
-        this.destroySlots();
-      }
+      this.destroySlots();
       this.define(slots);
       this.refresh();
     });
@@ -226,49 +267,5 @@ export class DfpService {
     scripts.push('.addService(googletag.pubads())');
 
     return scripts.join("\n    ") + ';';
-  }
-
-  /**
-   * Append script preload tag: \<link ref="preload" href="src" as="script"\>
-   * @param src 
-   * @returns 
-   */
-  preloadScript(src: string) {
-    const preload: HTMLLinkElement = this.document.createElement('link');
-    Object.assign(preload, { rel: 'preload', href: src, as: 'script' });
-    this.document.head.appendChild(preload);
-    return preload;
-  }
-
-  /**
-   * Append Script tag to parentNode
-   * @param options 
-   * @param parentNode The default setting is document.head
-   * @returns 
-   */
-  appendScript(options: ScriptOptions, parentNode?: Element) {
-    parentNode = parentNode || this.document.head;
-    const oldScript = options.id ? parentNode.querySelector('#' + options.id) : null;
-    const script: HTMLScriptElement = this.document.createElement('script');
-    Object.assign(script, options, {
-      type: 'text/javascript'
-    });
-    if (oldScript) {
-      parentNode.replaceChild(script, oldScript);
-    } else {
-      parentNode.appendChild(script);
-    }
-    return script;
-  }
-
-  appendCmdScript(options: ScriptOptions, parentNode?: Element) {
-    const opts = Object.assign({}, options, {
-      innerHTML: 'googletag.cmd.push(function(){' + options.innerHTML + '});'
-    });
-    return this.appendScript(opts, parentNode);
-  }
-
-  get events(): Observable<Event> {
-    return this._events.asObservable();
   }
 }

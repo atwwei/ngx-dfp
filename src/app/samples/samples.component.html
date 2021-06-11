@@ -53,20 +53,20 @@
 
     <ng-container *ngSwitchCase="'configure-privacy'">
         <div>
-            <input type="checkbox" [(ngModel)]="privacyConfig.childDirectedTreatment" id="childDirectedTreatment" (change)="configurePrivacy()">
+            <input type="checkbox" [(ngModel)]="privacyConfig.childDirectedTreatment" id="childDirectedTreatment" (change)="doPrivacySetting()">
             <label for="childDirectedTreatment">childDirectedTreatment configuration indicates whether the page should be treated as child-directed. Set to null to clear the configuration.</label>
         </div>
         <div>
-            <input type="checkbox" [(ngModel)]="privacyConfig.limitedAds" id="limitedAds" (change)="configurePrivacy()">
+            <input type="checkbox" [(ngModel)]="privacyConfig.limitedAds" id="limitedAds" (change)="doPrivacySetting()">
             <label for="limitedAds">limitedAds configuration enables serving to run in limited ads mode to aid in publisher regulatory compliance needs. When enabled, the GPT library itself may
                 optionally be requested from a cookie-less, limited ads URL.</label>
         </div>
         <div>
-            <input type="checkbox" [(ngModel)]="privacyConfig.restrictDataProcessing" id="restrictDataProcessing" (change)="configurePrivacy()">
+            <input type="checkbox" [(ngModel)]="privacyConfig.restrictDataProcessing" id="restrictDataProcessing" (change)="doPrivacySetting()">
             <label for="restrictDataProcessing">restrictDataProcessing configuration enables serving to run in restricted processing mode to aid in publisher regulatory compliance needs.</label>
         </div>
         <div>
-            <input type="checkbox" [(ngModel)]="privacyConfig.underAgeOfConsent" id="underAgeOfConsent" (change)="configurePrivacy()">
+            <input type="checkbox" [(ngModel)]="privacyConfig.underAgeOfConsent" id="underAgeOfConsent" (change)="doPrivacySetting()">
             <label for="underAgeOfConsent">underAgeOfConsent configuration indicates whether to mark ad requests as coming from users under the age of consent. Set to null to clear the
                 configuration.</label>
         </div>
@@ -171,13 +171,13 @@
         <br>
         <div>
             <!-- Refresh the first slot -->
-            <button (click)="refresh('leaderboard1')">Refresh Top Ad</button>
+            <button (click)="doRefresh('leaderboard1')">Refresh Top Ad</button>
             <!-- Refresh the second slot -->
-            <button (click)="refresh('leaderboard2')">Refresh Bottom Ad</button>
+            <button (click)="doRefresh('leaderboard2')">Refresh Bottom Ad</button>
             <!-- Refresh both slots -->
-            <button (click)="refresh()">Refresh All Ads</button>
+            <button (click)="doRefresh()">Refresh All Ads</button>
             <!-- Clear slots -->
-            <button (click)="clear()">Clear All Ads</button>
+            <button (click)="doClear()">Clear All Ads</button>
         </div>
     </ng-container>
 </ng-container>
