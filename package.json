@@ -16,7 +16,7 @@
   "dependencies": {
     "@alugha/ima": "^1.1.2",
     "@angular/common": "^6.0.0",
-    "@angular/core": "^6.0.0",
+    "@angular/core": "^11.0.5",
     "@angular/http": "^6.0.0",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
